@@ -21,7 +21,7 @@ async function connect() {
 
 const origin = process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "http://localhost:3000"
+    : "https://realtime-chat-app-navy.vercel.app/"
 
 
 app.use(cookieParser())
