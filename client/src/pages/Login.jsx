@@ -1,12 +1,18 @@
-import React from 'react'
+import axios from '../axiosConfig'
 import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 
 export default function Login() {
     const { register, handleSubmit, reset } = useForm();
 
-    function loginUser(data) {
-        console.log(data)
+    async function loginUser(data) {
+        try {
+            const res = await axios.post('/auth/login', data)
+            console.log(res.data)
+        } catch (err) {
+            const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+            console.log(message)
+        }
     }
 
     return (
@@ -22,7 +28,7 @@ export default function Login() {
 
                 <div className="password mt-4">
                     <label htmlFor="password" className="inline-block uppercase text-xl text-gray-400 font-medium mb-2">password :</label>
-                    <input {...register("password", { required: true })} type="password" id="password" className="w-full bg-gray-800 text-xl text-gray-300 py-4 px-6 rounded-md outline-1 outline outline-gray-800 focus:outline-blue-500" />
+                    <input {...register("pass", { required: true })} type="password" id="password" className="w-full bg-gray-800 text-xl text-gray-300 py-4 px-6 rounded-md outline-1 outline outline-gray-800 focus:outline-blue-500" />
                 </div>
 
                 <input type="submit" value="Login" className="w-full mt-8 py-4 text-center text-2xl text-gray-300 font-medium bg-blue-500 rounded-md cursor-pointer transition-all hover:bg-blue-600" />

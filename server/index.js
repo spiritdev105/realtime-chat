@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import authRoute from './routes/authRoute.js'
 import { errorHandler } from './middlewares/errMiddleware.js'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 
 dotenv.config()
 const app = express()
@@ -18,11 +19,23 @@ async function connect() {
     }
 }
 
+const origin = process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "http://localhost:3000"
+
+
+app.use(cookieParser())
 app.use(express.json())
 app.use(urlencoded({ extended: false }))
-app.use(cors())
+app.use(cors({
+    credentials: true,
+    origin
+}))
 
 app.use('/api/auth', authRoute)
+app.get('/', (req, res) => {
+    res.send('hello from api')
+})
 
 app.use(errorHandler)
 
