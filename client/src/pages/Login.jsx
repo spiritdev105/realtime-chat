@@ -1,6 +1,6 @@
 import axios from '../axiosConfig'
 import { Link } from 'react-router-dom'
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
 
 export default function Login() {
     const { register, handleSubmit, reset } = useForm();

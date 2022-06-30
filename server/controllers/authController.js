@@ -56,14 +56,6 @@ export const loginUser = asyncHandler(async (req, res) => {
 
     const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT)
 
-    res.cookie('access_token', token, {
-        httpOnly: true,
-        expires: new Date(new Date().getTime() + (86409000 / 15)),
-        secure: true,
-        sameSite: 'none',
-        domain: process.env.NODE_ENV === 'development' ? '.localhost' : '.realtime-chat-app-navy.vercel.app'
-    })
-
     const { password, isAdmin, ...other } = user._doc
 
     res.status(200).json({ ...other, token })

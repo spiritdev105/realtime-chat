@@ -33,6 +33,9 @@ app.use(cors({
 }))
 
 app.use('/api/auth', authRoute)
+
+
+
 app.get('/', (req, res) => {
     res.send('hello from api')
 })
