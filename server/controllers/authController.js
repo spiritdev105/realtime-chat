@@ -28,13 +28,13 @@ export const registerUser = asyncHandler(async (req, res) => {
         password: hash
     })
 
-    if (imageName) {
+    if (imageUrl) {
         newUser.imageName = imageName
         newUser.imageUrl = imageUrl
     }
 
-    newUser = await newUser.save()
-    res.status(201).json(newUser)
+    const user = await newUser.save()
+    res.status(201).json(user)
 })
 
 // @desc   Login user

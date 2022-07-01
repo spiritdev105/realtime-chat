@@ -10,6 +10,8 @@ import Register from "./pages/Register";
 import AddFriend from "./pages/AddFriend";
 import ChatBox from "./pages/ChatBox";
 import Requests from "./pages/Requests";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
         </Routes>
 
       </Router>
+
+      <ToastContainer position="top-right" newestOnTop />
     </div>
   );
 }
