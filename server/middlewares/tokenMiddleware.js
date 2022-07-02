@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken'
 
 export const verifyToken = (req, res) => {
-    const token = req.headers.Authorization
-
-    if (!token) {
+    const bearerToken = req.headers.authorization
+    if (!bearerToken) {
         res.status(401)
         throw new Error('You are not authenticated')
     }
 
+    const token = bearerToken.split(' ')[1]
     jwt.verify(token, process.env.JWT, (err, user) => {
         if (err) {
             res.status(403)
@@ -21,9 +21,9 @@ export const verifyToken = (req, res) => {
 export const verifyUser = (req, res, next) => {
     const { userId } = req.params
 
-    verifyUser(req, res)
+    verifyToken(req, res)
 
-    if (userId !== req.user.id || !req.user.isAdmin) {
+    if (userId !== req.user.id && !req.user.isAdmin) {
         res.status(403)
         throw new Error('You are not authorized')
     }

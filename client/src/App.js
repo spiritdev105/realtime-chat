@@ -4,7 +4,7 @@ import {
   Route,
 } from "react-router-dom"
 
-// import {useEffect} from "react"
+import { useEffect } from "react"
 import Layout from "./pages/Layout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -14,10 +14,18 @@ import Requests from "./pages/Requests";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Protected from "./pages/Protected";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { getUsers } from './slices/userSlice'
 
 function App() {
   const { user } = useSelector(state => state.auth)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (user) {
+      dispatch(getUsers())
+    }
+  }, [user, dispatch])
 
   return (
     <div className="App">

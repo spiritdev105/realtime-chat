@@ -1,9 +1,9 @@
 import express from 'express'
-import { getUsers } from '../controllers/userController.js'
+import { createNewRequest } from '../controllers/requestController.js'
 import { verifyUser } from '../middlewares/tokenMiddleware.js'
 
 const router = express.Router()
 
-router.get('/:userId', verifyUser, getUsers)
+router.post('/:userId', verifyUser, createNewRequest)
 
 export default router

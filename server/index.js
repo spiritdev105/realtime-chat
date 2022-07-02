@@ -1,10 +1,12 @@
 import express, { urlencoded } from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
-import authRoute from './routes/authRoute.js'
 import { errorHandler } from './middlewares/errMiddleware.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import authRoute from './routes/authRoute.js'
+import requestRoute from './routes/requestRoute.js'
+import userRoute from './routes/userRoute.js'
 
 dotenv.config()
 const app = express()
@@ -33,11 +35,12 @@ app.use(cors({
 }))
 
 app.use('/api/auth', authRoute)
-
+app.use('/api/request', requestRoute)
+app.use('/api/user', userRoute)
 
 
 app.get('/', (req, res) => {
-    res.send('hello from api')
+    res.send('Hello from api')
 })
 
 app.use(errorHandler)
