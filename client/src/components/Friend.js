@@ -9,7 +9,11 @@ export default function Friend({ image, name, total }) {
                 <Avatar image={image} customStyle="w-9 h-9" />
                 {name}
             </div>
-            {total && <Quantity total={total} />}
+
+            <div className="flex gap-3 items-center">
+                {total && <Quantity total={total} />}
+                <span className="w-3 h-3 inline-block bg-green-500 rounded-full"></span>
+            </div>
         </div>
     )
 }

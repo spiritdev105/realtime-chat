@@ -1,12 +1,12 @@
 import Avatar from './Avatar'
 
-const defaultImage = 'https://firebasestorage.googleapis.com/v0/b/fullstack-ecommerce-f3adb.appspot.com/o/da1787f0-f147-11ec-990c-0f218ff5e6ff?alt=media&token=a077a762-d3bd-4549-bb71-1d3afbab91b2'
+const defaultImage = 'https://firebasestorage.googleapis.com/v0/b/fullstack-ecommerce-f3adb.appspot.com/o/guest.webp?alt=media&token=da29d69d-0134-4b56-a295-55b348de4cbe'
 
-export default function Profile() {
+export default function Profile({ user }) {
     return (
         <section className="h-screen max-h-screen overflow-scroll hideScrollBar bg-gray-800 w-[27.6rem] max-w-[28.6rem] p-8">
-            <Avatar image={defaultImage} customStyle="w-32 h-32 mx-auto" />
-            <h3 className="text-2xl text-gray-300 py-4 font-medium text-center">Lisa Mark</h3>
+            <Avatar image={user.imageUrl ? user.imageUrl : defaultImage} customStyle="w-32 h-32 mx-auto" />
+            <h3 className="text-2xl text-gray-300 py-4 font-medium text-center">{user.username}</h3>
             <div className="info flex justify-between bg-gray-700 rounded-xl py-4 px-6">
                 <div>
                     <p className="text-gray-500 text-base text-center">Rank</p>
@@ -57,7 +57,7 @@ export default function Profile() {
                 <h3 className="text-xl text-gray-300 font-medium pb-3">Latest</h3>
 
                 <div className="flex gap-4">
-                    <Avatar image={defaultImage} customStyle="w-10 h-10" />
+                    <Avatar image={user.imageUrl ? user.imageUrl : defaultImage} customStyle="w-10 h-10" />
                     <div className="content">
                         <h3 className="text-xl text-gray-400 font-medium">Lisa Mark <span className="text-sm text-gray-600 ml-1">08:30 AM</span> </h3>
                         <p className="text-base text-gray-300">

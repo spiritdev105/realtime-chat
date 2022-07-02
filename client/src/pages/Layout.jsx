@@ -4,15 +4,15 @@ import Profile from '../components/Profile'
 import SecondSidebar from '../components/SecondSidebar'
 import { Outlet } from "react-router-dom";
 
-export default function Layout() {
+export default function Layout({ user }) {
     return (
         <section className="flex">
             <FirstSidebar />
-            <SecondSidebar />
+            <SecondSidebar user={user} />
             <section className="relative overflow-hidden h-screen max-h-screen bg-gray-900 w-[88rem] flex-grow px-20">
                 <Outlet />
             </section>
-            <Profile />
+            <Profile user={user} />
         </section>
     )
 }

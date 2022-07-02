@@ -1,7 +1,7 @@
 import React from 'react'
 import SearchedFriend from '../components/SearchedFriend'
 
-const defaultImage = 'https://firebasestorage.googleapis.com/v0/b/fullstack-ecommerce-f3adb.appspot.com/o/da1787f0-f147-11ec-990c-0f218ff5e6ff?alt=media&token=a077a762-d3bd-4549-bb71-1d3afbab91b2'
+const defaultImage = 'https://firebasestorage.googleapis.com/v0/b/fullstack-ecommerce-f3adb.appspot.com/o/guest.webp?alt=media&token=da29d69d-0134-4b56-a295-55b348de4cbe'
 
 export default function AddFriend() {
     return (
@@ -16,12 +16,12 @@ export default function AddFriend() {
             </section>
 
             <div className="searchedFriends">
-                <div className="noSearch">
+                {/* <div className="noSearch">
                     <img src="/images/group.svg" alt="" className="w-[48rem] h-[34rem] object-cover mx-auto" />
                     <p className="text-gray-500 text-xl text-center mt-5">Wumpus is waiting on friends. You don't have to, though.</p>
-                </div>
-                {/* <SearchedFriend image={defaultImage} />
-                <SearchedFriend image={defaultImage} added={true} /> */}
+                </div> */}
+                <SearchedFriend image={defaultImage} />
+                <SearchedFriend image={defaultImage} added={true} />
             </div>
         </>
     )
