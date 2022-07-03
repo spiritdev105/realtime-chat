@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Protected from "./pages/Protected";
 import { useSelector, useDispatch } from 'react-redux'
 import { getUsers } from './slices/userSlice'
+import { allRequests } from './slices/requestSlice'
 
 function App() {
   const { user } = useSelector(state => state.auth)
@@ -24,6 +25,7 @@ function App() {
   useEffect(() => {
     if (user) {
       dispatch(getUsers())
+      dispatch(allRequests())
     }
   }, [user, dispatch])
 
@@ -42,7 +44,7 @@ function App() {
               index
               element={
                 <Protected user={user}>
-                  <AddFriend />
+                  <AddFriend user={user} />
                 </Protected>
               }
             />
