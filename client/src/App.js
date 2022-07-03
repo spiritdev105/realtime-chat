@@ -53,7 +53,7 @@ function App() {
               path="requests"
               element={
                 <Protected user={user}>
-                  <Requests />
+                  <Requests user={user} />
                 </Protected>
               }
             />

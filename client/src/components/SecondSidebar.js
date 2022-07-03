@@ -11,7 +11,7 @@ export default function SecondSidebar({ user }) {
 
             <SearchInput />
             <ProfileCard user={user} />
-            <DefaultOptions />
+            <DefaultOptions user={user} />
             <Channels />
             <Friends />
 

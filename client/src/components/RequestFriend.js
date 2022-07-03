@@ -1,12 +1,12 @@
 import Avatar from './Avatar'
 
-export default function RequestFriend({ image }) {
+export default function RequestFriend({ reqFriend }) {
     return (
         <div className="flex justify-between mb-4">
             <div className="info flex gap-6 items-center">
-                <Avatar image={image} customStyle="w-14 h-14" />
+                <Avatar image={reqFriend.senderImage} customStyle="w-14 h-14" />
                 <div className="content">
-                    <h3 className="capitalize text-2xl text-gray-200 font-medium">John Doe</h3>
+                    <h3 className="capitalize text-2xl text-gray-200 font-medium">{reqFriend.senderUsername}</h3>
                     <p className="capitalize text-lg text-gray-500">Incoming Friend Request</p>
                 </div>
             </div>
