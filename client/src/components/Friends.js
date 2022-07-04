@@ -3,21 +3,21 @@ import { useState } from 'react'
 import Accordion from './Accordion'
 import Friend from './Friend'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-const defaultImage = 'https://firebasestorage.googleapis.com/v0/b/fullstack-ecommerce-f3adb.appspot.com/o/guest.webp?alt=media&token=da29d69d-0134-4b56-a295-55b348de4cbe'
-
-export default function Friends() {
+export default function Friends({ user }) {
     const [open, setOpen] = useState(true)
+    const { conversations } = useSelector(state => state.conversation)
+    const yourFriends = conversations.map(c => c.members.find(m => m.memberId !== user._id))
 
     return (
         <div>
             <Accordion name="Friends" setOpen={setOpen} open={open} />
 
             <div className={`${open ? 'block' : 'hidden'}`}>
-                <Friend image={defaultImage} name="kiara gaurve" total="2" />
-                <Friend image={defaultImage} name="kira yoshikage" />
-                <Friend image={defaultImage} name="richard wu" />
-                <Friend image={defaultImage} name="maria" />
+                {
+                    yourFriends.map(f => (<Friend key={f.memberId} yourFriend={f} />))
+                }
             </div>
 
             <Link to="/">

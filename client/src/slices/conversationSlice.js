@@ -22,6 +22,20 @@ export const newConversation = createAsyncThunk(
     }
 )
 
+//all conversations
+export const allConversations = createAsyncThunk(
+    'conversationSlice/all',
+    async (_, thunkApi) => {
+        try {
+            const userId = thunkApi.getState().auth.user._id
+            return await conversationService.allConversations(`/conversation/${userId}`)
+        } catch (err) {
+            const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+            return thunkApi.rejectWithValue(message)
+        }
+    }
+)
+
 const conversationSlice = createSlice({
     name: 'conversations',
     initialState,
@@ -41,6 +55,9 @@ const conversationSlice = createSlice({
             .addCase(newConversation.rejected, (state, action) => {
                 state.conversationError = true
                 state.conversationMessage = action.payload
+            })
+            .addCase(allConversations.fulfilled, (state, action) => {
+                state.conversations = action.payload
             })
     }
 })

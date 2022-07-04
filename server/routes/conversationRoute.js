@@ -1,9 +1,11 @@
 import express from 'express'
-import { createConversation } from '../controllers/conversationController.js'
+import { allConversations, createConversation } from '../controllers/conversationController.js'
 import { verifyUser } from '../middlewares/tokenMiddleware.js'
 
 const router = express.Router()
 
-router.post('/:userId', verifyUser, createConversation)
+router.route('/:userId')
+    .post(verifyUser, createConversation)
+    .get(verifyUser, allConversations)
 
 export default router

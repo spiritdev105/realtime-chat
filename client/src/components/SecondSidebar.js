@@ -13,7 +13,7 @@ export default function SecondSidebar({ user }) {
             <ProfileCard user={user} />
             <DefaultOptions user={user} />
             <Channels />
-            <Friends />
+            <Friends user={user} />
 
         </section>
     )

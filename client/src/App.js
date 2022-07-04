@@ -17,6 +17,7 @@ import Protected from "./pages/Protected";
 import { useSelector, useDispatch } from 'react-redux'
 import { getUsers } from './slices/userSlice'
 import { allRequests } from './slices/requestSlice'
+import { allConversations } from "./slices/conversationSlice";
 
 function App() {
   const { user } = useSelector(state => state.auth)
@@ -26,6 +27,7 @@ function App() {
     if (user) {
       dispatch(getUsers())
       dispatch(allRequests())
+      dispatch(allConversations())
     }
   }, [user, dispatch])
 
@@ -59,7 +61,7 @@ function App() {
             />
 
             <Route
-              path="/:conversationId"
+              path="/:username"
               element={
                 <Protected user={user}>
                   <ChatBox />

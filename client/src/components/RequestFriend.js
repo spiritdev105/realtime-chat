@@ -24,11 +24,10 @@ export default function RequestFriend({ reqFriend, user }) {
                 },
                 {
                     memberId: reqFriend.senderId,
-                    memberUsername: reqFriend.senderImage,
-                    memberImage: reqFriend.senderUsername
+                    memberUsername: reqFriend.senderUsername,
+                    memberImage: reqFriend.senderImage
                 }
-            ],
-            conversationType: 'Private'
+            ]
         }
 
         removeRequest('Accepted the request')

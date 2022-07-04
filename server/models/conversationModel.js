@@ -7,11 +7,7 @@ const conversationSchema = mongoose.Schema({
             memberUsername: String,
             memberImage: String
         }
-    ],
-    conversationType: {
-        type: String,
-        required: true
-    }
+    ]
 }, { timestamps: true })
 
 export default mongoose.model('Conversation', conversationSchema)

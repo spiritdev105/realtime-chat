@@ -5,5 +5,10 @@ async function createConversation(url, data) {
     return res.data
 }
 
-const conversationService = { createConversation }
+async function allConversations(url) {
+    const res = await axios.get(url)
+    return res.data
+}
+
+const conversationService = { createConversation, allConversations }
 export default conversationService
