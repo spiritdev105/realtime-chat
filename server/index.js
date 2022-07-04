@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import authRoute from './routes/authRoute.js'
 import requestRoute from './routes/requestRoute.js'
 import userRoute from './routes/userRoute.js'
+import conversationRoute from './routes/conversationRoute.js'
 
 dotenv.config()
 const app = express()
@@ -37,6 +38,7 @@ app.use(cors({
 app.use('/api/auth', authRoute)
 app.use('/api/request', requestRoute)
 app.use('/api/user', userRoute)
+app.use('/api/conversation', conversationRoute)
 
 
 app.get('/', (req, res) => {

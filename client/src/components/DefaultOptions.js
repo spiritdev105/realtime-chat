@@ -29,7 +29,7 @@ export default function DefaultOptions({ user }) {
                         <p className="text-xl text-gray-300">Requests</p>
                     </div>
                     {
-                        totalRequests && <Quantity total={totalRequests} />
+                        totalRequests ? <Quantity total={totalRequests} /> : ''
                     }
                 </div>
             </Link>

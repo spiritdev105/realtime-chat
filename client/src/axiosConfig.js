@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((req) => {
     const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
-    req.headers.Authorization = user ? `Bearer ${user.token}` : null
+    req.headers.Authorization = user ? `Bearer ${user.token}` : ''
     return req
 })
 

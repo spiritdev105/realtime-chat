@@ -5,5 +5,10 @@ async function allRequests(url) {
     return res.data
 }
 
-const requestService = { allRequests }
+async function deleteRequest(url, reqData) {
+    const res = await axios.delete(url, { data: { ...reqData } })
+    return res.data
+}
+
+const requestService = { allRequests, deleteRequest }
 export default requestService

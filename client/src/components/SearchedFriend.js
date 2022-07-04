@@ -32,7 +32,7 @@ export default function SearchedFriend({ friend, user, added, sent }) {
             <div className="info flex gap-6 items-center">
                 <Avatar image={friend.imageUrl ? friend.imageUrl : defaultImage} customStyle="w-14 h-14" />
                 <div className="content">
-                    <h3 className="capitalize text-2xl text-gray-200 font-medium">{friend.username}</h3>
+                    <h3 className="text-2xl text-gray-200 font-medium">{friend.username}</h3>
                     <p className="capitalize text-lg text-gray-500">{added ? 'Already added' : sent ? 'Sent request' : 'New Friend'}</p>
                 </div>
             </div>
