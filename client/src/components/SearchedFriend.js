@@ -14,7 +14,7 @@ export default function SearchedFriend({ friend, user, added, sent }) {
             receiverId: friend._id,
             senderId: user._id,
             senderUsername: user.username,
-            senderImage: user.imageUrl ? user.imageUrl : defaultImage
+            senderImage: user.imageUrl ? user.imageUrl : ''
         }
 
         try {

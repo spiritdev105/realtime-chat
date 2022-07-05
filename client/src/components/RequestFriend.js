@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux'
 import { deleteRequest } from '../slices/requestSlice'
 import { newConversation } from '../slices/conversationSlice'
 
+const defaultImage = 'https://firebasestorage.googleapis.com/v0/b/fullstack-ecommerce-f3adb.appspot.com/o/guest.webp?alt=media&token=da29d69d-0134-4b56-a295-55b348de4cbe'
+
 export default function RequestFriend({ reqFriend, user }) {
     const dispatch = useDispatch()
 
@@ -20,12 +22,12 @@ export default function RequestFriend({ reqFriend, user }) {
                 {
                     memberId: user._id,
                     memberUsername: user.username,
-                    memberImage: user.imageUrl
+                    memberImage: user.imageUrl ? user.imageUrl : ''
                 },
                 {
                     memberId: reqFriend.senderId,
                     memberUsername: reqFriend.senderUsername,
-                    memberImage: reqFriend.senderImage
+                    memberImage: reqFriend.senderImage ? reqFriend.senderImage : ''
                 }
             ]
         }
@@ -37,7 +39,7 @@ export default function RequestFriend({ reqFriend, user }) {
     return (
         <div className="flex justify-between mb-4">
             <div className="info flex gap-6 items-center">
-                <Avatar image={reqFriend.senderImage} customStyle="w-14 h-14" />
+                <Avatar image={reqFriend.senderImage ? reqFriend.senderImage : defaultImage} customStyle="w-14 h-14" />
                 <div className="content">
                     <h3 className="capitalize text-2xl text-gray-200 font-medium">{reqFriend.senderUsername}</h3>
                     <p className="capitalize text-lg text-gray-500">Incoming Friend Request</p>

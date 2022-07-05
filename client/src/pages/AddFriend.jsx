@@ -7,16 +7,23 @@ import { toast } from 'react-toastify'
 export default function AddFriend({ user }) {
     const { allUsers } = useSelector(state => state.users)
     const { requests } = useSelector(state => state.requests)
+    const { conversations } = useSelector(state => state.conversation)
     const friendUsername = useRef()
     const [friend, setFriend] = useState(null)
     const [inReq, setInReq] = useState(false)
+    const [added, setAdded] = useState(false)
 
     useEffect(() => {
         if (friend) {
+            const checkAdded = conversations.some(c => c.members.some(m => m.memberId === friend._id))
+            checkAdded ? setAdded(true) : setAdded(false)
+
+            if (checkAdded) return
+
             const checkReq = requests.find(req => req.receiverId === friend._id && req.senderId === user._id)
             checkReq ? setInReq(true) : setInReq(false)
         }
-    }, [friend, setInReq, user._id, requests])
+    }, [friend, setInReq, setAdded, user._id, requests, conversations])
 
     function searchFriend(e) {
         e.preventDefault()
@@ -47,7 +54,7 @@ export default function AddFriend({ user }) {
             <div className="searchedFriends">
                 {
                     friend ? (
-                        <SearchedFriend added={false} sent={inReq} friend={friend} user={user} />
+                        <SearchedFriend added={added} sent={inReq} friend={friend} user={user} />
                     ) : (
                         <div className="noSearch">
                             <img src="/images/group.svg" alt="" className="w-[48rem] h-[34rem] object-cover mx-auto" />
