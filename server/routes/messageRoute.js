@@ -4,7 +4,6 @@ import { verifyUser } from '../middlewares/tokenMiddleware.js'
 
 const router = express.Router()
 
-router.route('/:userId/:cid')
-    .post(verifyUser, createMessage)
+router.post('/:userId', verifyUser, createMessage)
 
 export default router

@@ -64,7 +64,7 @@ function App() {
               path="/:username"
               element={
                 <Protected user={user}>
-                  <ChatBox />
+                  <ChatBox user={user} />
                 </Protected>
               }
             />
