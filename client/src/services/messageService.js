@@ -5,5 +5,10 @@ async function createMsg(url, data) {
     return res.data
 }
 
-const messageService = { createMsg }
+async function allMsgs(url, data) {
+    const res = await axios.post(url, data)
+    return res.data
+}
+
+const messageService = { createMsg, allMsgs }
 export default messageService

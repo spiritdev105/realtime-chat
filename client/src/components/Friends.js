@@ -1,14 +1,23 @@
 import { PlusIcon } from '@heroicons/react/outline'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Accordion from './Accordion'
 import Friend from './Friend'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { allMessages } from '../slices/messageSlice'
 
 export default function Friends({ user }) {
     const [open, setOpen] = useState(true)
     const { conversations } = useSelector(state => state.conversation)
     const yourFriends = conversations.map(c => c.members.find(m => m.memberId !== user._id))
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (user) {
+            const cid = conversations.map(c => c._id)
+            dispatch(allMessages(cid))
+        }
+    }, [dispatch, user, conversations])
 
     return (
         <div>

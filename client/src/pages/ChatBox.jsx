@@ -23,16 +23,9 @@ export default function ChatBox({ user }) {
             <ChatHeader />
 
             <main className="h-full max-h-full hideScrollBar overflow-scroll pb-28 pt-[7.5rem]">
-                <ChatMessage />
-                <ChatMessage own={true} />
-                <ChatMessage own={true} />
-                <ChatMessage />
-                <ChatMessage />
-                <ChatMessage />
-                <ChatMessage own={true} />
-                <ChatMessage own={true} />
-                <ChatMessage />
-                <ChatMessage />
+                {
+                    messages.map(m => (<ChatMessage key={m._id} own={user._id === m.senderId} messageData={m} />))
+                }
             </main>
 
             <ChatInput user={user} />

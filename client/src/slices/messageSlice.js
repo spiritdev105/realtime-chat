@@ -23,6 +23,20 @@ export const newMessage = createAsyncThunk(
     }
 )
 
+//all messages
+export const allMessages = createAsyncThunk(
+    'messageSlice/all',
+    async (cid, thunkApi) => {
+        try {
+            const userId = thunkApi.getState().auth.user._id
+            return await messageService.allMsgs(`/message/all/${userId}`, cid)
+        } catch (err) {
+            const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+            return thunkApi.rejectWithValue(message)
+        }
+    }
+)
+
 const messageSlice = createSlice({
     name: 'messages',
     initialState,
@@ -44,6 +58,9 @@ const messageSlice = createSlice({
             .addCase(newMessage.rejected, (state, action) => {
                 state.messageError = true
                 state.message = action.payload
+            })
+            .addCase(allMessages.fulfilled, (state, action) => {
+                state.messages = action.payload
             })
     }
 })
