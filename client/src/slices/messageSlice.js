@@ -6,7 +6,8 @@ const initialState = {
     currentMessage: '',
     message: '',
     messageError: false,
-    messageSuccess: false
+    messageSuccess: false,
+    messageLoading: false
 }
 
 // create new message
@@ -46,6 +47,7 @@ const messageSlice = createSlice({
             state.message = ''
             state.messageError = false
             state.messageSuccess = false
+            state.messageLoading = false
         }
     },
     extraReducers: (builder) => {
@@ -59,8 +61,12 @@ const messageSlice = createSlice({
                 state.messageError = true
                 state.message = action.payload
             })
+            .addCase(allMessages.pending, (state, action) => {
+                state.messageLoading = true
+            })
             .addCase(allMessages.fulfilled, (state, action) => {
                 state.messages = action.payload
+                state.messageLoading = false
             })
     }
 })
