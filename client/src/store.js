@@ -4,6 +4,7 @@ import usersReducer from './slices/userSlice'
 import requestsReducer from './slices/requestSlice'
 import conversationReducer from './slices/conversationSlice'
 import messageReducer from './slices/messageSlice'
+import roomReducer from './slices/roomSlice'
 
 const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
         users: usersReducer,
         requests: requestsReducer,
         conversation: conversationReducer,
-        message: messageReducer
+        message: messageReducer,
+        room: roomReducer
     }
 })
 

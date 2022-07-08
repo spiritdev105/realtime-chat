@@ -5,17 +5,19 @@ import ChatInput from '../components/ChatInput'
 import ChatMessage from '../components/ChatMessage'
 import { toast } from 'react-toastify'
 import { msgReset } from '../slices/messageSlice'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import ErrMsg from '../components/ErrMsg'
 import Loader from '../components/Loader'
+import { resetConversation } from '../slices/conversationSlice'
 
 export default function ChatBox({ user }) {
     const { messages, currentMessage, messageError, messageSuccess, message, messageLoading } = useSelector(state => state.message)
     const dispatch = useDispatch()
     const { username } = useParams()
-    const { conversations } = useSelector(state => state.conversation)
+    const { conversations, conversationSuccess, conversationError, conversationMessage } = useSelector(state => state.conversation)
     const conversation = conversations.find(c => c.members.some(m => m.memberUsername === username))
-    const chatMessages = messages.filter(m => m.conversationId === conversation._id)
+    const chatMessages = messages.filter(m => m.conversationId === conversation?._id)
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (messageSuccess) {
@@ -25,22 +27,40 @@ export default function ChatBox({ user }) {
         if (messageSuccess || messageError) dispatch(msgReset())
     }, [messageError, messageSuccess, message, dispatch])
 
+    useEffect(() => {
+        if (conversationSuccess) {
+            toast(conversationMessage, { type: 'success', autoClose: 2200 })
+            navigate('/')
+        }
+        if (conversationError) toast(conversationMessage, { type: 'error', autoClose: 2200 })
+        if (conversationSuccess || conversationError) dispatch(resetConversation())
+    }, [conversationError, conversationSuccess, conversationMessage, dispatch, navigate])
+
     return (
         <>
-            <ChatHeader />
+            {conversation ? (
+                <>
+                    <ChatHeader />
 
-            <main className="h-full max-h-full hideScrollBar overflow-scroll pb-28 pt-[7.5rem]">
-                {
-                    messageLoading ? <Loader />
-                        : chatMessages.length ?
-                            chatMessages.map(m => (<ChatMessage key={m._id} own={user._id === m.senderId} messageData={m} />))
-                            : (
-                                <ErrMsg errMsg="No messages yet" />
-                            )
-                }
-            </main>
+                    <main className="h-full max-h-full hideScrollBar overflow-scroll pb-28 pt-[7.5rem]">
+                        {
+                            messageLoading ? <Loader />
+                                : chatMessages.length ?
+                                    chatMessages.map(m => (<ChatMessage key={m._id} own={user._id === m.senderId} messageData={m} />))
+                                    : (
+                                        <ErrMsg errMsg="No messages yet" />
+                                    )
+                        }
+                    </main>
 
-            <ChatInput user={user} />
+                    <ChatInput user={user} />
+                </>
+            ) : (
+                <div className="py-10">
+                    <ErrMsg errMsg="Unknown friend" />
+                </div>
+            )
+            }
         </>
     )
 }

@@ -4,8 +4,7 @@ const roomSchema = new mongoose.Schema({
     members: [mongoose.SchemaTypes.ObjectId],
     roomName: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     }
 }, { timestamps: true })
 

@@ -16,9 +16,9 @@ export default function ChatMessage({ own, messageData }) {
     return (
         <div ref={node} className={`flex ${own ? 'flex-row-reverse' : 'gap-6'} mb-8`}>
             <Avatar image={sender.imageUrl ? sender.imageUrl : defaultImage} customStyle="w-12 h-12" />
-            <div className="message">
-                <h3 className={`message text-xl text-gray-400 font-medium flex ${own && 'flex-row-reverse mr-6'} items-end gap-4`}>{sender.username} <span className="text-sm text-gray-600">{new Date(messageData.createdAt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</span></h3>
-                <div className={`py-3 px-5 max-w-[50rem] ${own ? 'rounded-tl-full bg-blue-500 mr-2' : 'rounded-tr-full bg-gray-700'} rounded-b-full mt-2 text-xl text-gray-300`}>
+            <div className="message flex flex-col gap-2">
+                <h3 className={`message text-xl text-gray-400 font-medium flex ${own && 'flex-row-reverse mr-6'} items-end gap-4`}>{sender.username} <span className="text-sm text-gray-600">{new Date(messageData.createdAt).toLocaleString()}</span></h3>
+                <div className={`py-3 px-5 max-w-[50rem] ${own ? 'rounded-tl-full bg-blue-500 mr-2 ml-auto' : 'rounded-tr-full bg-gray-700'} rounded-b-full text-xl text-gray-300`}>
                     {messageData.text}
                 </div>
             </div>

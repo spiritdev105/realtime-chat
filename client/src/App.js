@@ -18,6 +18,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getUsers } from './slices/userSlice'
 import { allRequests } from './slices/requestSlice'
 import { allConversations } from "./slices/conversationSlice";
+import { allRooms } from "./slices/roomSlice";
 
 function App() {
   const { user } = useSelector(state => state.auth)
@@ -28,6 +29,7 @@ function App() {
       dispatch(getUsers())
       dispatch(allRequests())
       dispatch(allConversations())
+      dispatch(allRooms())
     }
   }, [user, dispatch])
 

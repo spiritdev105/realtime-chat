@@ -10,5 +10,10 @@ async function allConversations(url) {
     return res.data
 }
 
-const conversationService = { createConversation, allConversations }
+async function deleteConversation(url) {
+    const res = await axios.delete(url)
+    return res.data
+}
+
+const conversationService = { createConversation, allConversations, deleteConversation }
 export default conversationService

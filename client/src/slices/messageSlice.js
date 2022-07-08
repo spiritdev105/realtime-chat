@@ -68,6 +68,9 @@ const messageSlice = createSlice({
                 state.messages = action.payload
                 state.messageLoading = false
             })
+            .addCase('conversationSlice/delete/fulfilled', (state, action) => {
+                state.messages = state.messages.filter(m => m.conversationId !== action.payload.cid)
+            })
     }
 })
 

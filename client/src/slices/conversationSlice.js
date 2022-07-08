@@ -36,6 +36,20 @@ export const allConversations = createAsyncThunk(
     }
 )
 
+//delete conversation
+export const deleteConversation = createAsyncThunk(
+    'conversationSlice/delete',
+    async (cid, thunkApi) => {
+        try {
+            const userId = thunkApi.getState().auth.user._id
+            return await conversationService.deleteConversation(`/conversation/${userId}/${cid}`)
+        } catch (err) {
+            const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+            return thunkApi.rejectWithValue(message)
+        }
+    }
+)
+
 const conversationSlice = createSlice({
     name: 'conversations',
     initialState,
@@ -58,6 +72,15 @@ const conversationSlice = createSlice({
             })
             .addCase(allConversations.fulfilled, (state, action) => {
                 state.conversations = action.payload
+            })
+            .addCase(deleteConversation.fulfilled, (state, action) => {
+                state.conversations = state.conversations.filter(c => c._id !== action.payload.cid)
+                state.conversationSuccess = true
+                state.conversationMessage = action.payload.message
+            })
+            .addCase(deleteConversation.rejected, (state, action) => {
+                state.conversationError = true
+                state.conversationMessage = action.payload
             })
     }
 })
