@@ -50,6 +50,20 @@ export const joinARoom = createAsyncThunk(
     }
 )
 
+//leave a room
+export const leaveRoom = createAsyncThunk(
+    'roomSlice/leave',
+    async (roomId, thunkApi) => {
+        try {
+            const userId = thunkApi.getState().auth.user._id
+            return await roomService.leaveRoom(`/room/${userId}/${roomId}`)
+        } catch (err) {
+            const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+            return thunkApi.rejectWithValue(message)
+        }
+    }
+)
+
 const roomSlice = createSlice({
     name: 'room',
     initialState,
@@ -82,6 +96,15 @@ const roomSlice = createSlice({
             })
             .addCase(allRooms.fulfilled, (state, action) => {
                 state.rooms = action.payload
+            })
+            .addCase(leaveRoom.fulfilled, (state, action) => {
+                state.rooms = state.rooms.filter(r => r._id !== action.payload.roomId)
+                state.roomSuccess = true
+                state.roomMessage = action.payload.message
+            })
+            .addCase(leaveRoom.rejected, (state, action) => {
+                state.roomError = true
+                state.roomMessage = action.payload
             })
     }
 })

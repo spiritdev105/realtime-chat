@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import RoomModel from '../models/roomModel.js'
+import MessageModel from '../models/messageModel.js'
 import mongoose from 'mongoose'
 
 // @desc   Get rooms
@@ -53,6 +54,17 @@ export const joinRoom = asyncHandler(async (req, res) => {
 // @access Private
 export const leaveRoom = asyncHandler(async (req, res) => {
     const { roomId } = req.params
-    await RoomModel.findByIdAndUpdate(roomId, { $pull: { members: req.user.id } })
+
+    const room = await RoomModel.findOne({ _id: roomId })
+
+    if (room.members.length > 1) {
+        await RoomModel.findByIdAndUpdate(roomId, { $pull: { members: req.user.id } })
+    } else {
+        await Promise.all([
+            RoomModel.deleteOne({ _id: roomId }),
+            MessageModel.deleteMany({ conversationId: roomId })
+        ])
+    }
+
     res.status(200).json({ roomId, message: 'Successfully leaved the room' })
 })

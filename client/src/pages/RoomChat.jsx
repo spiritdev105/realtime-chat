@@ -1,11 +1,12 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import RoomHeader from "../components/RoomHeader"
 import Loader from '../components/Loader'
-import RoomMessage from "../components/RoomMessage"
 import ErrMsg from "../components/ErrMsg"
 import ChatMessage from "../components/ChatMessage"
 import RoomInput from "../components/RoomInput"
+import { useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function RoomChat({ user }) {
     const { roomId } = useParams()
@@ -13,6 +14,11 @@ export default function RoomChat({ user }) {
     const { messages, messageLoading } = useSelector(state => state.message)
     const chatMessages = messages.filter(m => m.conversationId === roomId)
     const currentRoom = rooms.find(r => r._id === roomId)
+    const dispatch = useDispatch()
+
+    // useEffect(() => {
+    //     if(roomSuccess) toast(roomMessage, {type: 'success', autoClose: 2200})
+    // },[roomSuccess, roomError, roomMessage, dispatch])
 
     return (
         <>

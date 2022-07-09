@@ -15,5 +15,10 @@ async function allRooms(url) {
     return res.data
 }
 
+async function leaveRoom(url) {
+    const res = await axios.delete(url)
+    return res.data
+}
+
 const roomService = { createRoom, joinRoom, allRooms }
 export default roomService
