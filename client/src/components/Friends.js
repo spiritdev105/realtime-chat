@@ -9,15 +9,17 @@ import { allMessages } from '../slices/messageSlice'
 export default function Friends({ user }) {
     const [open, setOpen] = useState(true)
     const { conversations } = useSelector(state => state.conversation)
+    const { rooms } = useSelector(state => state.room)
     const yourFriends = conversations.map(c => c.members.find(m => m.memberId !== user._id))
     const dispatch = useDispatch()
 
     useEffect(() => {
         if (user) {
             const cid = conversations.map(c => c._id)
-            dispatch(allMessages(cid))
+            const roomId = rooms.map(r => r._id)
+            dispatch(allMessages([...cid, ...roomId]))
         }
-    }, [dispatch, user, conversations])
+    }, [dispatch, user, conversations, rooms])
 
     return (
         <div>

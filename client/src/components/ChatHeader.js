@@ -29,15 +29,9 @@ export default function ChatHeader() {
                 <p className="text-gray-600 text-lg ">Where we can share our works and feedback</p>
             </div>
 
-            {/* <div className="members flex items-center gap-2"> */}
-            {/* <Avatar image={defaultImage} customStyle="w-9 h-9" />
-                <Avatar image={defaultImage} customStyle="w-9 h-9" />
-                <Avatar image={defaultImage} customStyle="w-9 h-9" /> */}
-            {/* <div className="w-9 h-9 bg-gray-800 rounded-xl text-gray-400 text-base flex items-center justify-center">24</div> */}
             <div onClick={removeFriend} className="w-9 h-9 bg-gray-700 rounded-xl text-base flex items-center justify-center">
                 <LogoutIcon className="w-6 h-6 fill-gray-300 cursor-pointer" />
             </div>
-            {/* </div> */}
         </header>
     )
 }

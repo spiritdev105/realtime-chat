@@ -53,7 +53,7 @@ export default function ChatBox({ user }) {
                         }
                     </main>
 
-                    <ChatInput user={user} />
+                    <ChatInput user={user} conversation={conversation} />
                 </>
             ) : (
                 <div className="py-10">

@@ -19,6 +19,7 @@ import { getUsers } from './slices/userSlice'
 import { allRequests } from './slices/requestSlice'
 import { allConversations } from "./slices/conversationSlice";
 import { allRooms } from "./slices/roomSlice";
+import RoomChat from "./pages/RoomChat";
 
 function App() {
   const { user } = useSelector(state => state.auth)
@@ -67,6 +68,15 @@ function App() {
               element={
                 <Protected user={user}>
                   <ChatBox user={user} />
+                </Protected>
+              }
+            />
+
+            <Route
+              path="room/:roomId"
+              element={
+                <Protected user={user}>
+                  <RoomChat user={user} />
                 </Protected>
               }
             />

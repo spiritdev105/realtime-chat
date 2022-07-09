@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { newMessage } from '../slices/messageSlice'
 
-export default function ChatInput({ user, conversation }) {
+export default function RoomInput({ user, room }) {
     const inputRef = useRef()
     const dispatch = useDispatch()
 
@@ -14,7 +14,7 @@ export default function ChatInput({ user, conversation }) {
         if (!inputValue) return
 
         const data = {
-            conversationId: conversation._id,
+            conversationId: room._id,
             senderId: user._id,
             text: inputValue
         }
