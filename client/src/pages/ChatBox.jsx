@@ -11,7 +11,7 @@ import Loader from '../components/Loader'
 import { resetConversation } from '../slices/conversationSlice'
 
 export default function ChatBox({ user }) {
-    const { messages, currentMessage, messageError, messageSuccess, message, messageLoading } = useSelector(state => state.message)
+    const { messages, messageError, messageSuccess, message, messageLoading } = useSelector(state => state.message)
     const dispatch = useDispatch()
     const { username } = useParams()
     const { conversations, conversationSuccess, conversationError, conversationMessage } = useSelector(state => state.conversation)

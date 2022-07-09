@@ -1,8 +1,13 @@
+import { useSelector } from 'react-redux'
 import Avatar from './Avatar'
 
 const defaultImage = 'https://firebasestorage.googleapis.com/v0/b/fullstack-ecommerce-f3adb.appspot.com/o/guest.webp?alt=media&token=da29d69d-0134-4b56-a295-55b348de4cbe'
 
 export default function Profile({ user }) {
+    const { messages } = useSelector(state => state.message)
+    const userMessages = messages.filter(m => m.senderId === user._id)
+    const latestMessage = userMessages[userMessages.length - 1]
+
     return (
         <section className="h-screen max-h-screen overflow-scroll hideScrollBar bg-gray-800 w-[27.6rem] max-w-[28.6rem] p-8">
             <Avatar image={user.imageUrl ? user.imageUrl : defaultImage} customStyle="w-32 h-32 mx-auto" />
@@ -59,9 +64,9 @@ export default function Profile({ user }) {
                 <div className="flex gap-4">
                     <Avatar image={user.imageUrl ? user.imageUrl : defaultImage} customStyle="w-10 h-10" />
                     <div className="content">
-                        <h3 className="text-xl text-gray-400 font-medium">Lisa Mark <span className="text-sm text-gray-600 ml-1">08:30 AM</span> </h3>
+                        <h3 className="text-xl text-gray-400 font-medium">{user.username} <span className="text-sm text-gray-600 ml-1">{new Date(latestMessage?.createdAt).toLocaleString()}</span> </h3>
                         <p className="text-base text-gray-300">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia earum inventore aliquam.
+                            {latestMessage?.text}
                         </p>
                     </div>
                 </div>

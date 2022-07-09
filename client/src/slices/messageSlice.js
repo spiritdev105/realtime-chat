@@ -3,7 +3,6 @@ import messageService from '../services/messageService'
 
 const initialState = {
     messages: [],
-    currentMessage: '',
     message: '',
     messageError: false,
     messageSuccess: false,
@@ -43,7 +42,6 @@ const messageSlice = createSlice({
     initialState,
     reducers: {
         msgReset: (state) => {
-            state.currentMessage = ''
             state.message = ''
             state.messageError = false
             state.messageSuccess = false
@@ -53,7 +51,6 @@ const messageSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(newMessage.fulfilled, (state, action) => {
-                state.currentMessage = action.payload
                 state.messages = [...state.messages, action.payload]
                 state.messageSuccess = true
             })
