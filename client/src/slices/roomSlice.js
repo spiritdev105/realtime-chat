@@ -5,7 +5,11 @@ const initialState = {
     rooms: [],
     roomSuccess: false,
     roomError: false,
-    roomMessage: ''
+    roomMessage: '',
+    currentRoomId: '',
+    leaveRoomSuccess: false,
+    leaveRoomError: false,
+    leaveRoomMessage: ''
 }
 
 //get rooms
@@ -72,6 +76,12 @@ const roomSlice = createSlice({
             state.roomSuccess = false
             state.roomError = false
             state.roomMessage = ''
+            state.currentRoomId = ''
+        },
+        leaveRoomReset: (state) => {
+            state.leaveRoomSuccess = false
+            state.leaveRoomError = false
+            state.leaveRoomMessage = ''
         }
     },
     extraReducers: (builder) => {
@@ -80,6 +90,7 @@ const roomSlice = createSlice({
                 state.rooms = [...state.rooms, action.payload.newRoom]
                 state.roomSuccess = true
                 state.roomMessage = action.payload.message
+                state.currentRoomId = action.payload.newRoom._id
             })
             .addCase(newRoom.rejected, (state, action) => {
                 state.roomError = true
@@ -89,6 +100,7 @@ const roomSlice = createSlice({
                 state.rooms = [...state.rooms, action.payload.room]
                 state.roomSuccess = true
                 state.roomMessage = action.payload.message
+                state.currentRoomId = action.payload.room._id
             })
             .addCase(joinARoom.rejected, (state, action) => {
                 state.roomError = true
@@ -99,15 +111,15 @@ const roomSlice = createSlice({
             })
             .addCase(leaveRoom.fulfilled, (state, action) => {
                 state.rooms = state.rooms.filter(r => r._id !== action.payload.roomId)
-                state.roomSuccess = true
-                state.roomMessage = action.payload.message
+                state.leaveRoomSuccess = true
+                state.leaveRoomMessage = action.payload.message
             })
             .addCase(leaveRoom.rejected, (state, action) => {
-                state.roomError = true
-                state.roomMessage = action.payload
+                state.leaveRoomError = true
+                state.leaveRoomMessage = action.payload
             })
     }
 })
 
-export const { roomReset } = roomSlice.actions
+export const { roomReset, leaveRoomReset } = roomSlice.actions
 export default roomSlice.reducer

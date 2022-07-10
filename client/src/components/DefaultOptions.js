@@ -7,20 +7,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import { joinARoom, newRoom, roomReset } from '../slices/roomSlice';
 import { toast } from 'react-toastify'
 
-export default function DefaultOptions({ user }) {
+export default function DefaultOptions({ user, activeUrl }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { requests } = useSelector(state => state.requests)
-    const { roomSuccess, roomError, roomMessage } = useSelector(state => state.room)
+    const { roomSuccess, roomError, roomMessage, currentRoomId } = useSelector(state => state.room)
 
     useEffect(() => {
         if (roomSuccess) {
-            //navigate to room (will do it later)
+            navigate(`/room/${currentRoomId}`)
             toast(roomMessage, { type: 'success', autoClose: 2500 })
         }
         if (roomError) toast(roomMessage, { type: 'error', autoClose: 2500 })
         if (roomSuccess || roomError) dispatch(roomReset())
-    }, [roomSuccess, roomError, roomMessage, dispatch])
+    }, [roomSuccess, roomError, roomMessage, dispatch, currentRoomId, navigate])
 
     const totalRequests = requests.reduce((acc, req) => {
         if (req.receiverId === user._id) return acc + 1
@@ -54,7 +54,7 @@ export default function DefaultOptions({ user }) {
         <div className="py-8">
 
             <Link to="/requests">
-                <div className="flex items-center justify-between rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900">
+                <div className={`flex items-center justify-between rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900 ${activeUrl === '/requests' ? 'bg-gray-900' : ''}`}>
                     <div className="flex items-center gap-5">
                         <PaperAirplaneIcon className="w-7 h-7 stroke-gray-300" />
                         <p className="text-xl text-gray-300">Requests</p>

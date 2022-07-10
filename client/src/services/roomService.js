@@ -20,5 +20,5 @@ async function leaveRoom(url) {
     return res.data
 }
 
-const roomService = { createRoom, joinRoom, allRooms }
+const roomService = { createRoom, joinRoom, allRooms, leaveRoom }
 export default roomService

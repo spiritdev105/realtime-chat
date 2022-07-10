@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import ErrMsg from '../components/ErrMsg'
 import Loader from '../components/Loader'
 import { resetConversation } from '../slices/conversationSlice'
+import { setUrl } from '../slices/userSlice'
 
 export default function ChatBox({ user }) {
     const { messages, messageError, messageSuccess, message, messageLoading } = useSelector(state => state.message)
@@ -35,6 +36,10 @@ export default function ChatBox({ user }) {
         if (conversationError) toast(conversationMessage, { type: 'error', autoClose: 2200 })
         if (conversationSuccess || conversationError) dispatch(resetConversation())
     }, [conversationError, conversationSuccess, conversationMessage, dispatch, navigate])
+
+    useEffect(() => {
+        dispatch(setUrl(username))
+    }, [username, dispatch])
 
     return (
         <>

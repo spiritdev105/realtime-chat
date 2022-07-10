@@ -14,8 +14,7 @@ const requestSchema = new mongoose.Schema({
         required: true
     },
     senderImage: {
-        type: String,
-        required: true
+        type: String
     }
 }, { timestamps: true })
 

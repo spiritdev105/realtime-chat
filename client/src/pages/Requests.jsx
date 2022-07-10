@@ -4,11 +4,18 @@ import RequestFriend from "../components/RequestFriend";
 import { useEffect } from "react";
 import { toast } from 'react-toastify'
 import { requestReset } from '../slices/requestSlice'
+import { useLocation } from "react-router-dom";
+import { setUrl } from "../slices/userSlice";
 
 export default function Requests({ user }) {
     const { requests, requestMessage, requestError, requestSuccess } = useSelector(state => state.requests)
     const yourRequests = requests.filter(req => req.receiverId === user._id)
     const dispatch = useDispatch()
+    const location = useLocation()
+
+    useEffect(() => {
+        dispatch(setUrl(location.pathname))
+    }, [dispatch, location])
 
     useEffect(() => {
         if (requestSuccess) toast(requestMessage, { type: 'success', autoClose: 2200 })

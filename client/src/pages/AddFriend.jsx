@@ -1,7 +1,8 @@
 import { useRef, useState, useEffect } from 'react'
 import SearchedFriend from '../components/SearchedFriend'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { setUrl } from '../slices/userSlice'
 
 
 export default function AddFriend({ user }) {
@@ -12,6 +13,7 @@ export default function AddFriend({ user }) {
     const [friend, setFriend] = useState(null)
     const [inReq, setInReq] = useState(false)
     const [added, setAdded] = useState(false)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (friend) {
@@ -24,6 +26,10 @@ export default function AddFriend({ user }) {
             checkReq ? setInReq(true) : setInReq(false)
         }
     }, [friend, setInReq, setAdded, user._id, requests, conversations])
+
+    useEffect(() => {
+        dispatch(setUrl(''))
+    }, [dispatch])
 
     function searchFriend(e) {
         e.preventDefault()

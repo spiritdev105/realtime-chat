@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import Accordion from './Accordion'
 import Channel from './Channel'
 
-export default function Channels() {
+export default function Channels({ activeUrl }) {
     const [open, setOpen] = useState(true)
     const { rooms } = useSelector(state => state.room)
 
@@ -14,7 +14,7 @@ export default function Channels() {
             <div className={`${open ? 'block' : 'hidden'}`}>
                 {
                     rooms.map(room => (
-                        <Channel key={room._id} room={room} />
+                        <Channel key={room._id} room={room} activeUrl={activeUrl} />
                     ))
                 }
             </div>

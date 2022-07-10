@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { allMessages } from '../slices/messageSlice'
 
-export default function Friends({ user }) {
+export default function Friends({ user, activeUrl }) {
     const [open, setOpen] = useState(true)
     const { conversations } = useSelector(state => state.conversation)
     const { rooms } = useSelector(state => state.room)
@@ -27,7 +27,7 @@ export default function Friends({ user }) {
 
             <div className={`${open ? 'block' : 'hidden'}`}>
                 {
-                    yourFriends.map(f => (<Friend key={f.memberId} yourFriend={f} />))
+                    yourFriends.map(f => (<Friend key={f.memberId} yourFriend={f} activeUrl={activeUrl} />))
                 }
             </div>
 

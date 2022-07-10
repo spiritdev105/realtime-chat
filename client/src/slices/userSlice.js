@@ -3,6 +3,7 @@ import userService from '../services/userService'
 
 const initialState = {
     allUsers: [],
+    activeUrl: ''
 }
 
 //all users
@@ -23,6 +24,9 @@ const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
+        setUrl: (state, action) => {
+            state.activeUrl = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -32,4 +36,5 @@ const usersSlice = createSlice({
     }
 })
 
+export const { setUrl } = usersSlice.actions
 export default usersSlice.reducer
