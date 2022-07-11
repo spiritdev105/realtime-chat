@@ -118,6 +118,9 @@ const roomSlice = createSlice({
                 state.leaveRoomError = true
                 state.leaveRoomMessage = action.payload
             })
+            .addCase('auth/logout', (state) => {
+                state.rooms = []
+            })
     }
 })
 

@@ -68,6 +68,9 @@ const messageSlice = createSlice({
             .addCase('conversationSlice/delete/fulfilled', (state, action) => {
                 state.messages = state.messages.filter(m => m.conversationId !== action.payload.cid)
             })
+            .addCase('auth/logout', (state) => {
+                state.messages = []
+            })
     }
 })
 

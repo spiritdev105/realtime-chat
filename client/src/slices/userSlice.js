@@ -33,6 +33,9 @@ const usersSlice = createSlice({
             .addCase(getUsers.fulfilled, (state, action) => {
                 state.allUsers = action.payload
             })
+            .addCase('auth/logout', (state) => {
+                state.allUsers = []
+            })
     }
 })
 

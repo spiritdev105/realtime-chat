@@ -64,12 +64,12 @@ const conversationSlice = createSlice({
         builder
             .addCase(newConversation.fulfilled, (state, action) => {
                 state.conversations = [...state.conversations, action.payload]
-                state.conversationSuccess = true
+                // state.conversationSuccess = true
             })
-            .addCase(newConversation.rejected, (state, action) => {
-                state.conversationError = true
-                state.conversationMessage = action.payload
-            })
+            // .addCase(newConversation.rejected, (state, action) => {
+            //     state.conversationError = true
+            //     state.conversationMessage = action.payload
+            // })
             .addCase(allConversations.fulfilled, (state, action) => {
                 state.conversations = action.payload
             })
@@ -81,6 +81,9 @@ const conversationSlice = createSlice({
             .addCase(deleteConversation.rejected, (state, action) => {
                 state.conversationError = true
                 state.conversationMessage = action.payload
+            })
+            .addCase('auth/logout', (state) => {
+                state.conversations = []
             })
     }
 })

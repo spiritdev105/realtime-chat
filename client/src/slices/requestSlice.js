@@ -69,6 +69,9 @@ const requestSlice = createSlice({
                 state.requestError = true
                 state.requestMessage = action.payload
             })
+            .addCase('auth/logout', (state) => {
+                state.requests = []
+            })
     }
 })
 

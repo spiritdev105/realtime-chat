@@ -20,6 +20,7 @@ import { allRequests } from './slices/requestSlice'
 import { allConversations } from "./slices/conversationSlice";
 import { allRooms } from "./slices/roomSlice";
 import RoomChat from "./pages/RoomChat";
+import { io } from 'socket.io-client'
 
 function App() {
   const { user } = useSelector(state => state.auth)
@@ -31,6 +32,12 @@ function App() {
       dispatch(allRequests())
       dispatch(allConversations())
       dispatch(allRooms())
+    }
+
+    const newSocket = io('http://localhost:3001', { query: { id: user._id } })
+
+    return () => {
+      newSocket.close()
     }
   }, [user, dispatch])
 

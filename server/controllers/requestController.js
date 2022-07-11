@@ -23,7 +23,7 @@ export const createNewRequest = asyncHandler(async (req, res) => {
 // @route  GET api/request/:userId
 // @access Private
 export const allRequests = asyncHandler(async (req, res) => {
-    const allRequests = await RequestModel.find()
+    const allRequests = await RequestModel.find({ $or: [{ senderId: req.user.id }, { receiverId: req.user.id }] })
     res.status(200).json(allRequests)
 })
 
