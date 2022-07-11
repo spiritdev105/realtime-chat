@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    socket: null
+    socket: null,
+    allActiveUsers: []
 }
 
 const socketSlice = createSlice({
@@ -10,9 +11,12 @@ const socketSlice = createSlice({
     reducers: {
         setSocket: (state, action) => {
             state.socket = action.payload
+        },
+        setActiveUsers: (state, action) => {
+            state.allActiveUsers = action.payload
         }
     }
 })
 
-export const { setSocket } = socketSlice.actions
+export const { setSocket, setActiveUsers } = socketSlice.actions
 export default socketSlice.reducer

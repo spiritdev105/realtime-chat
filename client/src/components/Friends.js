@@ -5,13 +5,16 @@ import Friend from './Friend'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { allMessages } from '../slices/messageSlice'
+import { setActiveUsers } from '../slices/socketSlice'
 
 export default function Friends({ user, activeUrl }) {
     const [open, setOpen] = useState(true)
     const { conversations } = useSelector(state => state.conversation)
+    const { socket, allActiveUsers } = useSelector(state => state.socketConfig)
     const { rooms } = useSelector(state => state.room)
     const yourFriends = conversations.map(c => c.members.find(m => m.memberId !== user._id))
     const dispatch = useDispatch()
+    const greenStatus = allActiveUsers.map(u => u.userId)
 
     useEffect(() => {
         if (user) {
@@ -21,13 +24,27 @@ export default function Friends({ user, activeUrl }) {
         }
     }, [dispatch, user, conversations, rooms])
 
+    useEffect(() => {
+        if (!socket) return
+
+        socket.on('allActiveUsers', (activeUsers) => {
+            dispatch(setActiveUsers(activeUsers))
+        })
+
+        return () => {
+            socket.off('allActiveUsers', (activeUsers) => {
+                dispatch(setActiveUsers(activeUsers))
+            })
+        }
+    }, [socket, dispatch])
+
     return (
         <div>
             <Accordion name="Friends" setOpen={setOpen} open={open} />
 
             <div className={`${open ? 'block' : 'hidden'}`}>
                 {
-                    yourFriends.map(f => (<Friend key={f.memberId} yourFriend={f} activeUrl={activeUrl} />))
+                    yourFriends.map(f => (<Friend active={greenStatus.includes(f.memberId)} key={f.memberId} yourFriend={f} activeUrl={activeUrl} />))
                 }
             </div>
 

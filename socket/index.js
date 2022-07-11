@@ -9,7 +9,27 @@ const io = new Server(process.env.PORT || 3001, {
     }
 })
 
+let activeUsers = []
+
+const addUser = (socketId, userId) => {
+    !activeUsers.some(u => u.socketId === socketId && u.userId === userId)
+        && activeUsers.push({ socketId, userId })
+}
+
+const removeUser = (socketId) => {
+    activeUsers = activeUsers.filter(u => u.socketId !== socketId)
+}
+
 io.on('connection', (socket) => {
     const userId = socket.handshake.query.id
-    console.log(userId)
+    addUser(socket.id, userId)
+
+    //send active users
+    io.emit('allActiveUsers', activeUsers)
+
+    //remove active user
+    socket.on('disconnect', () => {
+        removeUser(socket.id)
+        io.emit('allActiveUsers', activeUsers)
+    })
 })

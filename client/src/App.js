@@ -21,6 +21,7 @@ import { allConversations } from "./slices/conversationSlice";
 import { allRooms } from "./slices/roomSlice";
 import RoomChat from "./pages/RoomChat";
 import { io } from 'socket.io-client'
+import { setSocket } from "./slices/socketSlice";
 
 function App() {
   const { user } = useSelector(state => state.auth)
@@ -35,6 +36,7 @@ function App() {
     }
 
     const newSocket = io('http://localhost:3001', { query: { id: user._id } })
+    dispatch(setSocket(newSocket))
 
     return () => {
       newSocket.close()

@@ -15,8 +15,12 @@ const store = configureStore({
         conversation: conversationReducer,
         message: messageReducer,
         room: roomReducer,
-        socket: socketReducer
-    }
+        socketConfig: socketReducer
+    },
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
 })
 
 export default store
