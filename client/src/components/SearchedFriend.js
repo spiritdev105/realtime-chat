@@ -2,12 +2,13 @@ import Avatar from './Avatar'
 import axios from '../axiosConfig'
 import { toast } from 'react-toastify'
 import { newRequest } from '../slices/requestSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const defaultImage = 'https://firebasestorage.googleapis.com/v0/b/fullstack-ecommerce-f3adb.appspot.com/o/guest.webp?alt=media&token=da29d69d-0134-4b56-a295-55b348de4cbe'
 
 export default function SearchedFriend({ friend, user, added, sent }) {
     const dispatch = useDispatch()
+    const { socket } = useSelector(state => state.socketConfig)
 
     async function makeRequest() {
         const reqData = {
@@ -20,6 +21,7 @@ export default function SearchedFriend({ friend, user, added, sent }) {
         try {
             const res = await axios.post(`/request/${user._id}`, reqData)
             dispatch(newRequest(res.data.newRequest))
+            socket && socket.emit('sendRequest', res.data.newRequest)
             toast(res.data.message, { type: 'success', autoClose: 2500 })
         } catch (err) {
             const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()

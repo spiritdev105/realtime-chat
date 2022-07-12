@@ -11,13 +11,13 @@ import Register from "./pages/Register";
 import AddFriend from "./pages/AddFriend";
 import ChatBox from "./pages/ChatBox";
 import Requests from "./pages/Requests";
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Protected from "./pages/Protected";
 import { useSelector, useDispatch } from 'react-redux'
 import { getUsers } from './slices/userSlice'
-import { allRequests } from './slices/requestSlice'
-import { allConversations } from "./slices/conversationSlice";
+import { allRequests, newRequest, requestDelete } from './slices/requestSlice'
+import { addConversation, allConversations } from "./slices/conversationSlice";
 import { allRooms } from "./slices/roomSlice";
 import RoomChat from "./pages/RoomChat";
 import { io } from 'socket.io-client'
@@ -25,6 +25,7 @@ import { setSocket } from "./slices/socketSlice";
 
 function App() {
   const { user } = useSelector(state => state.auth)
+  const { socket } = useSelector(state => state.socketConfig)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -42,6 +43,40 @@ function App() {
       newSocket.close()
     }
   }, [user, dispatch])
+
+  useEffect(() => {
+    if (!socket) return
+
+    socket.on('receiveRequest', (userData) => {
+      dispatch(newRequest(userData))
+      toast('You have a new friend request', { type: 'info', autoClose: 2000 })
+    })
+
+    socket.on('saveConversation', (newConversation) => {
+      dispatch(addConversation(newConversation))
+    })
+
+    socket.on('deleteRequest', ({ requestId, reqMsg }) => {
+      toast(reqMsg, { type: 'info', autoClose: 2000 })
+      dispatch(requestDelete(requestId))
+    })
+
+    return () => {
+      socket.off('receiveRequest', (userData) => {
+        dispatch(newRequest(userData))
+        toast('You have a new friend request', { type: 'info', autoClose: 2000 })
+      })
+
+      socket.off('saveConversation', (newConversation) => {
+        dispatch(addConversation(newConversation))
+      })
+
+      socket.off('deleteRequest', ({ requestId, reqMsg }) => {
+        toast(reqMsg, { type: 'info', autoClose: 2000 })
+        dispatch(requestDelete(requestId))
+      })
+    }
+  }, [socket, dispatch])
 
   return (
     <div className="App">

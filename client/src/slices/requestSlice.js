@@ -6,7 +6,9 @@ const initialState = {
     requestLoading: false,
     requestSuccess: false,
     requestError: false,
-    requestMessage: ''
+    requestMessage: '',
+    deleteRequest: null,
+    deleteOnAccept: null
 }
 
 //all requests
@@ -49,6 +51,9 @@ const requestSlice = createSlice({
         },
         newRequest: (state, action) => {
             state.requests = [...state.requests, action.payload]
+        },
+        requestDelete: (state, action) => {
+            state.requests = state.requests.filter(req => req._id !== action.payload)
         }
     },
     extraReducers: (builder) => {
@@ -61,9 +66,18 @@ const requestSlice = createSlice({
                 state.requests = action.payload
             })
             .addCase(deleteRequest.fulfilled, (state, action) => {
+                const req = state.requests.find(r => r._id === action.payload.reqId)
+
                 state.requestSuccess = true
-                state.requestMessage = action.payload.message
+                state.requestMessage = action.payload.message.msgForReceiver
                 state.requests = state.requests.filter(req => req._id !== action.payload.reqId)
+
+                // if (action.payload.message === 'Declined the request') {
+                state.deleteRequest = { requestId: req._id, senderId: req.senderId, reqMsg: action.payload.message.msgForSender }
+                // }
+                // if(action.payload.message === 'Accepted the request') {
+                //     state.deleteOnAccept = { requestId: req._id, senderId: req.senderId }
+                // }
             })
             .addCase(deleteRequest.rejected, (state, action) => {
                 state.requestError = true
@@ -75,5 +89,5 @@ const requestSlice = createSlice({
     }
 })
 
-export const { requestReset, newRequest } = requestSlice.actions
+export const { requestReset, newRequest, requestDelete } = requestSlice.actions
 export default requestSlice.reducer

@@ -3,6 +3,7 @@ import conversationService from '../services/conversationService'
 
 const initialState = {
     conversations: [],
+    acceptConversation: null,
     conversationSuccess: false,
     conversationError: false,
     conversationMessage: ''
@@ -58,12 +59,16 @@ const conversationSlice = createSlice({
             state.conversationSuccess = false
             state.conversationError = false
             state.conversationMessage = ''
+        },
+        addConversation: (state, action) => {
+            state.conversations = [...state.conversations, action.payload]
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(newConversation.fulfilled, (state, action) => {
                 state.conversations = [...state.conversations, action.payload]
+                state.acceptConversation = action.payload
                 // state.conversationSuccess = true
             })
             // .addCase(newConversation.rejected, (state, action) => {
@@ -88,5 +93,5 @@ const conversationSlice = createSlice({
     }
 })
 
-export const { resetConversation } = conversationSlice.actions
+export const { resetConversation, addConversation } = conversationSlice.actions
 export default conversationSlice.reducer

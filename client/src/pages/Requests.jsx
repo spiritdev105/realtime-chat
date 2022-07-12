@@ -12,6 +12,19 @@ export default function Requests({ user }) {
     const yourRequests = requests.filter(req => req.receiverId === user._id)
     const dispatch = useDispatch()
     const location = useLocation()
+    const { acceptConversation } = useSelector(state => state.conversation)
+    const { deleteRequest } = useSelector(state => state.requests)
+    const { socket } = useSelector(state => state.socketConfig)
+
+    useEffect(() => {
+        if (!socket || !acceptConversation) return
+        socket.emit('sendConversation', acceptConversation)
+    }, [socket, acceptConversation])
+
+    useEffect(() => {
+        if (!socket || !deleteRequest) return
+        socket.emit('sendDeletedRequest', deleteRequest)
+    }, [socket, deleteRequest])
 
     useEffect(() => {
         dispatch(setUrl(location.pathname))
@@ -30,7 +43,7 @@ export default function Requests({ user }) {
             <div className="requestedFriends">
                 {
                     yourRequests.length ? yourRequests.map(req => (
-                        <RequestFriend key={req._id} reqFriend={req} user={user} />
+                        <RequestFriend key={req._id} request={req} user={user} />
                     ))
                         : (
                             <ErrMsg errMsg="no requests found" />
