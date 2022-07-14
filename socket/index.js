@@ -43,14 +43,14 @@ io.on('connection', (socket) => {
         io.emit('allActiveUsers', activeUsers)
     })
 
-    //send and receive requests
+    //receive requests
     socket.on('sendRequest', (userData) => {
         const user = findUser(userData.receiverId)
         if (!user) return
         socket.to(user.socketId).emit('receiveRequest', userData)
     })
 
-    //send and save conversations
+    //save conversations
     socket.on('sendConversation', (conversation) => {
         const toUsers = []
 
@@ -70,5 +70,13 @@ io.on('connection', (socket) => {
         const user = findUser(senderId)
         if (!user) return
         socket.to(user.socketId).emit('deleteRequest', { requestId, reqMsg })
+    })
+
+    //remove conversation
+    socket.on('sendRmConversation', ({ cid, rmMsg, members, removerId }) => {
+        const friend = members.find(m => m.memberId !== removerId)
+        const user = findUser(friend.memberId)
+        if (!user) return
+        socket.to(user.socketId).emit('rmConversation', { rmMsg, cid })
     })
 })

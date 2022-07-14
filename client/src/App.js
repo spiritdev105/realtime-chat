@@ -17,7 +17,7 @@ import Protected from "./pages/Protected";
 import { useSelector, useDispatch } from 'react-redux'
 import { getUsers } from './slices/userSlice'
 import { allRequests, newRequest, requestDelete } from './slices/requestSlice'
-import { addConversation, allConversations } from "./slices/conversationSlice";
+import { addConversation, allConversations, rmConversation } from "./slices/conversationSlice";
 import { allRooms } from "./slices/roomSlice";
 import RoomChat from "./pages/RoomChat";
 import { io } from 'socket.io-client'
@@ -61,6 +61,11 @@ function App() {
       dispatch(requestDelete(requestId))
     })
 
+    socket.on('rmConversation', ({ rmMsg, cid }) => {
+      toast(rmMsg, { type: 'error', autoClose: 2000 })
+      dispatch(rmConversation(cid))
+    })
+
     return () => {
       socket.off('receiveRequest', (userData) => {
         dispatch(newRequest(userData))
@@ -74,6 +79,11 @@ function App() {
       socket.off('deleteRequest', ({ requestId, reqMsg }) => {
         toast(reqMsg, { type: 'info', autoClose: 2000 })
         dispatch(requestDelete(requestId))
+      })
+
+      socket.off('rmConversation', ({ rmMsg, cid }) => {
+        toast(rmMsg, { type: 'error', autoClose: 2000 })
+        dispatch(rmConversation(cid))
       })
     }
   }, [socket, dispatch])

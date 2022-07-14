@@ -8,17 +8,25 @@ import { msgReset } from '../slices/messageSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import ErrMsg from '../components/ErrMsg'
 import Loader from '../components/Loader'
-import { resetConversation } from '../slices/conversationSlice'
+import { resetConversation, rmConversationReset } from '../slices/conversationSlice'
 import { setUrl } from '../slices/userSlice'
 
 export default function ChatBox({ user }) {
     const { messages, messageError, messageSuccess, message, messageLoading } = useSelector(state => state.message)
     const dispatch = useDispatch()
     const { username } = useParams()
-    const { conversations, conversationSuccess, conversationError, conversationMessage } = useSelector(state => state.conversation)
+    const { conversations, conversationSuccess, conversationError, conversationMessage, removeConversation } = useSelector(state => state.conversation)
     const conversation = conversations.find(c => c.members.some(m => m.memberUsername === username))
     const chatMessages = messages.filter(m => m.conversationId === conversation?._id)
     const navigate = useNavigate()
+    const { socket } = useSelector(state => state.socketConfig)
+
+
+    useEffect(() => {
+        if (!socket || !removeConversation) return
+        socket.emit('sendRmConversation', { rmMsg: `${user.username} blocked you`, ...removeConversation, removerId: user._id })
+        dispatch(rmConversationReset())
+    }, [socket, removeConversation, user, dispatch, conversation])
 
     useEffect(() => {
         if (messageSuccess) {

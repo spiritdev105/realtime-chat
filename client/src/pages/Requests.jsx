@@ -3,9 +3,10 @@ import ErrMsg from "../components/ErrMsg";
 import RequestFriend from "../components/RequestFriend";
 import { useEffect } from "react";
 import { toast } from 'react-toastify'
-import { requestReset } from '../slices/requestSlice'
+import { requestReset, requestDeleteReset } from '../slices/requestSlice'
 import { useLocation } from "react-router-dom";
 import { setUrl } from "../slices/userSlice";
+import { addConversationReset } from "../slices/conversationSlice";
 
 export default function Requests({ user }) {
     const { requests, requestMessage, requestError, requestSuccess } = useSelector(state => state.requests)
@@ -19,12 +20,14 @@ export default function Requests({ user }) {
     useEffect(() => {
         if (!socket || !acceptConversation) return
         socket.emit('sendConversation', acceptConversation)
-    }, [socket, acceptConversation])
+        dispatch(addConversationReset())
+    }, [socket, acceptConversation, dispatch])
 
     useEffect(() => {
         if (!socket || !deleteRequest) return
         socket.emit('sendDeletedRequest', deleteRequest)
-    }, [socket, deleteRequest])
+        dispatch(requestDeleteReset())
+    }, [socket, deleteRequest, dispatch])
 
     useEffect(() => {
         dispatch(setUrl(location.pathname))

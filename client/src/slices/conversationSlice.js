@@ -4,6 +4,7 @@ import conversationService from '../services/conversationService'
 const initialState = {
     conversations: [],
     acceptConversation: null,
+    removeConversation: null,
     conversationSuccess: false,
     conversationError: false,
     conversationMessage: ''
@@ -62,6 +63,15 @@ const conversationSlice = createSlice({
         },
         addConversation: (state, action) => {
             state.conversations = [...state.conversations, action.payload]
+        },
+        addConversationReset: (state) => {
+            state.acceptConversation = null
+        },
+        rmConversation: (state, action) => {
+            state.conversations = state.conversations.filter(c => c._id !== action.payload)
+        },
+        rmConversationReset: (state) => {
+            state.removeConversation = null
         }
     },
     extraReducers: (builder) => {
@@ -79,9 +89,11 @@ const conversationSlice = createSlice({
                 state.conversations = action.payload
             })
             .addCase(deleteConversation.fulfilled, (state, action) => {
+                const findFriend = state.conversations.find(c => c._id === action.payload.cid)
                 state.conversations = state.conversations.filter(c => c._id !== action.payload.cid)
                 state.conversationSuccess = true
                 state.conversationMessage = action.payload.message
+                state.removeConversation = { cid: action.payload.cid, members: findFriend.members }
             })
             .addCase(deleteConversation.rejected, (state, action) => {
                 state.conversationError = true
@@ -93,5 +105,5 @@ const conversationSlice = createSlice({
     }
 })
 
-export const { resetConversation, addConversation } = conversationSlice.actions
+export const { resetConversation, addConversation, addConversationReset, rmConversationReset, rmConversation } = conversationSlice.actions
 export default conversationSlice.reducer
