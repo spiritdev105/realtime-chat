@@ -9,7 +9,8 @@ const initialState = {
     currentRoomId: '',
     leaveRoomSuccess: false,
     leaveRoomError: false,
-    leaveRoomMessage: ''
+    leaveRoomMessage: '',
+    leavedRoom: null
 }
 
 //get rooms
@@ -82,6 +83,24 @@ const roomSlice = createSlice({
             state.leaveRoomSuccess = false
             state.leaveRoomError = false
             state.leaveRoomMessage = ''
+        },
+        joinRoom: (state, action) => {
+            state.rooms = state.rooms.map(room => {
+                if (room._id === action.payload._id) return action.payload
+                return room
+            })
+        },
+        leavedRoomReset: (state) => {
+            state.leavedRoom = null
+        },
+        leavedRoom: (state, action) => {
+            state.rooms = state.rooms.map(room => {
+                if (room._id === action.payload.room._id) {
+                    room.members.splice(room.members.indexOf(action.payload.userId), 1)
+                    return room
+                }
+                return room
+            })
         }
     },
     extraReducers: (builder) => {
@@ -110,9 +129,11 @@ const roomSlice = createSlice({
                 state.rooms = action.payload
             })
             .addCase(leaveRoom.fulfilled, (state, action) => {
+                const room = state.rooms.find(r => r._id === action.payload.roomId)
                 state.rooms = state.rooms.filter(r => r._id !== action.payload.roomId)
                 state.leaveRoomSuccess = true
                 state.leaveRoomMessage = action.payload.message
+                state.leavedRoom = room
             })
             .addCase(leaveRoom.rejected, (state, action) => {
                 state.leaveRoomError = true
@@ -124,5 +145,5 @@ const roomSlice = createSlice({
     }
 })
 
-export const { roomReset, leaveRoomReset } = roomSlice.actions
+export const { roomReset, leaveRoomReset, joinRoom, leavedRoomReset, leavedRoom } = roomSlice.actions
 export default roomSlice.reducer

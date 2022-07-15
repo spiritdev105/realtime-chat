@@ -27,7 +27,7 @@ export default function RoomHeader({ currentRoom, user }) {
 
             <div className="members flex items-center gap-2">
                 {roomUsers.slice(0, roomUsers.length >= 3 ? 3 : roomUsers.length).map(u => <Avatar key={u._id} image={u.imageUrl ? u.imageUrl : defaultImage} customStyle="w-9 h-9" />)}
-                {roomUsers?.length && <div className="w-9 h-9 bg-gray-800 rounded-xl text-gray-400 text-base flex items-center justify-center">{roomUsers.length}</div>}
+                {roomUsers?.length ? <div className="w-9 h-9 bg-gray-800 rounded-xl text-gray-400 text-base flex items-center justify-center">{roomUsers.length}</div> : null}
                 <div className="w-9 h-9 bg-gray-700 rounded-xl text-base flex items-center justify-center">
                     <LogoutIcon className="w-6 h-6 fill-gray-300 cursor-pointer" onClick={leaveARoom} />
                 </div>

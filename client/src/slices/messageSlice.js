@@ -6,7 +6,8 @@ const initialState = {
     message: '',
     messageError: false,
     messageSuccess: false,
-    messageLoading: false
+    messageLoading: false,
+    newMsg: null
 }
 
 // create new message
@@ -46,6 +47,12 @@ const messageSlice = createSlice({
             state.messageError = false
             state.messageSuccess = false
             state.messageLoading = false
+        },
+        newMsgReset: (state) => {
+            state.newMsg = null
+        },
+        brandNewMsg: (state, action) => {
+            state.messages = [...state.messages, action.payload]
         }
     },
     extraReducers: (builder) => {
@@ -53,6 +60,7 @@ const messageSlice = createSlice({
             .addCase(newMessage.fulfilled, (state, action) => {
                 state.messages = [...state.messages, action.payload]
                 state.messageSuccess = true
+                state.newMsg = action.payload
             })
             .addCase(newMessage.rejected, (state, action) => {
                 state.messageError = true
@@ -74,5 +82,5 @@ const messageSlice = createSlice({
     }
 })
 
-export const { msgReset } = messageSlice.actions
+export const { msgReset, newMsgReset, brandNewMsg } = messageSlice.actions
 export default messageSlice.reducer

@@ -11,7 +11,14 @@ export default function DefaultOptions({ user, activeUrl }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { requests } = useSelector(state => state.requests)
-    const { roomSuccess, roomError, roomMessage, currentRoomId } = useSelector(state => state.room)
+    const { rooms, roomSuccess, roomError, roomMessage, currentRoomId } = useSelector(state => state.room)
+    const { socket } = useSelector(state => state.socketConfig)
+
+    useEffect(() => {
+        if (!socket || !currentRoomId) return
+        const room = rooms.find(r => r._id === currentRoomId)
+        socket.emit('sendRoom', room, `${user.username} joined the ${room.roomName} channel`)
+    }, [socket, currentRoomId, rooms, user])
 
     useEffect(() => {
         if (roomSuccess) {

@@ -18,10 +18,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getUsers } from './slices/userSlice'
 import { allRequests, newRequest, requestDelete } from './slices/requestSlice'
 import { addConversation, allConversations, rmConversation } from "./slices/conversationSlice";
-import { allRooms } from "./slices/roomSlice";
+import { allRooms, joinRoom, leavedRoom } from "./slices/roomSlice";
 import RoomChat from "./pages/RoomChat";
 import { io } from 'socket.io-client'
 import { setSocket } from "./slices/socketSlice";
+import { brandNewMsg } from "./slices/messageSlice";
 
 function App() {
   const { user } = useSelector(state => state.auth)
@@ -66,6 +67,20 @@ function App() {
       dispatch(rmConversation(cid))
     })
 
+    socket.on('joinRoom', (room, joinMsg) => {
+      toast(joinMsg, { type: 'info', autoClose: 2000 })
+      dispatch(joinRoom(room))
+    })
+
+    socket.on('leavedRoom', (room, lvMsg, userId) => {
+      toast(lvMsg, { type: 'info', autoClose: 2000 })
+      dispatch(leavedRoom({ room, userId }))
+    })
+
+    socket.on('brandNewMsg', (newMsg) => {
+      dispatch(brandNewMsg(newMsg))
+    })
+
     return () => {
       socket.off('receiveRequest', (userData) => {
         dispatch(newRequest(userData))
@@ -84,6 +99,20 @@ function App() {
       socket.off('rmConversation', ({ rmMsg, cid }) => {
         toast(rmMsg, { type: 'error', autoClose: 2000 })
         dispatch(rmConversation(cid))
+      })
+
+      socket.off('joinRoom', (room, joinMsg) => {
+        toast(joinMsg, { type: 'info', autoClose: 2000 })
+        dispatch(joinRoom(room))
+      })
+
+      socket.off('leavedRoom', (room, lvMsg, userId) => {
+        toast(lvMsg, { type: 'info', autoClose: 2000 })
+        dispatch(leavedRoom({ room, userId }))
+      })
+
+      socket.off('newRoomMsg', (newMsg) => {
+        dispatch(brandNewMsg(newMsg))
       })
     }
   }, [socket, dispatch])

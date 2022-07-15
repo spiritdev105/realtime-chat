@@ -79,4 +79,56 @@ io.on('connection', (socket) => {
         if (!user) return
         socket.to(user.socketId).emit('rmConversation', { rmMsg, cid })
     })
+
+    //join room
+    socket.on('sendRoom', (room, joinMsg) => {
+        const toUsers = []
+
+        room.members.forEach((member) => {
+            const user = findUser(member)
+            if (user) {
+                toUsers.push(user.socketId)
+            }
+        })
+
+        if (!toUsers.length) return
+        socket.to(toUsers).emit('joinRoom', room, joinMsg)
+    })
+
+    //leave room
+    socket.on('sendLeavedRoom', (room, leaveMsg) => {
+        const toUsers = []
+
+        room.members.forEach((member) => {
+            const user = findUser(member)
+            if (user) {
+                toUsers.push(user.socketId)
+            }
+        })
+
+        if (!toUsers.length) return
+        socket.to(toUsers).emit('leavedRoom', room, leaveMsg, userId)
+    })
+
+    //room chat message
+    socket.on('sendNewMsg', (newMsg, room) => {
+        const toUsers = []
+
+        room.members.forEach((member) => {
+            const user = findUser(member)
+            if (user) {
+                toUsers.push(user.socketId)
+            }
+        })
+
+        if (!toUsers.length) return
+        socket.to(toUsers).emit('brandNewMsg', newMsg)
+    })
+
+    //private chat message
+    socket.on('sendPrivateMsg', (newMsg, friendId) => {
+        const user = findUser(friendId)
+        if (!user) return
+        socket.to(user.socketId).emit('brandNewMsg', newMsg)
+    })
 })

@@ -4,7 +4,7 @@ import ChatHeader from '../components/ChatHeader'
 import ChatInput from '../components/ChatInput'
 import ChatMessage from '../components/ChatMessage'
 import { toast } from 'react-toastify'
-import { msgReset } from '../slices/messageSlice'
+import { msgReset, newMsgReset } from '../slices/messageSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import ErrMsg from '../components/ErrMsg'
 import Loader from '../components/Loader'
@@ -12,7 +12,7 @@ import { resetConversation, rmConversationReset } from '../slices/conversationSl
 import { setUrl } from '../slices/userSlice'
 
 export default function ChatBox({ user }) {
-    const { messages, messageError, messageSuccess, message, messageLoading } = useSelector(state => state.message)
+    const { messages, messageError, messageSuccess, message, messageLoading, newMsg } = useSelector(state => state.message)
     const dispatch = useDispatch()
     const { username } = useParams()
     const { conversations, conversationSuccess, conversationError, conversationMessage, removeConversation } = useSelector(state => state.conversation)
@@ -21,6 +21,13 @@ export default function ChatBox({ user }) {
     const navigate = useNavigate()
     const { socket } = useSelector(state => state.socketConfig)
 
+    useEffect(() => {
+        if (!socket || !newMsg) return
+        const friend = conversation.members.find(m => m.memberId !== user._id)
+        const friendId = friend.memberId
+        socket.emit('sendPrivateMsg', newMsg, friendId)
+        dispatch(newMsgReset())
+    }, [socket, newMsg, dispatch])
 
     useEffect(() => {
         if (!socket || !removeConversation) return

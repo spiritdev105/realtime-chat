@@ -7,17 +7,31 @@ import ChatMessage from "../components/ChatMessage"
 import RoomInput from "../components/RoomInput"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
-import { leaveRoomReset } from "../slices/roomSlice"
+import { leavedRoomReset, leaveRoomReset } from "../slices/roomSlice"
 import { setUrl } from "../slices/userSlice"
+import { newMsgReset } from "../slices/messageSlice"
 
 export default function RoomChat({ user }) {
     const { roomId } = useParams()
-    const { rooms, leaveRoomSuccess, leaveRoomError, leaveRoomMessage } = useSelector(state => state.room)
-    const { messages, messageLoading } = useSelector(state => state.message)
+    const { rooms, leaveRoomSuccess, leaveRoomError, leaveRoomMessage, leavedRoom } = useSelector(state => state.room)
+    const { messages, messageLoading, newMsg } = useSelector(state => state.message)
     const chatMessages = messages.filter(m => m.conversationId === roomId)
     const currentRoom = rooms.find(r => r._id === roomId)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { socket } = useSelector(state => state.socketConfig)
+
+    useEffect(() => {
+        if (!socket || !leavedRoom) return
+        socket.emit('sendLeavedRoom', leavedRoom, `${user.username} leaved the ${leavedRoom.roomName} channel`)
+        dispatch(leavedRoomReset())
+    }, [socket, leavedRoom, dispatch])
+
+    useEffect(() => {
+        if (!socket || !newMsg) return
+        socket.emit('sendNewMsg', newMsg, currentRoom)
+        dispatch(newMsgReset())
+    }, [socket, newMsg, dispatch])
 
     useEffect(() => {
         if (leaveRoomSuccess) {
