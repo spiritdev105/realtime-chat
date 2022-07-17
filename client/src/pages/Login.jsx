@@ -30,9 +30,9 @@ export default function Login() {
     }
 
     return (
-        <section className="min-h-screen relative flex justify-center items-center">
+        <section className="min-h-screen relative flex justify-center items-center px-10">
             <img src="/images/nightBg.jpg" alt="" className="absolute top-0 left-0 min-h-screen w-full object-cover" />
-            <form className="bg-gray-700 rounded-xl py-10 px-8 z-10 w-[50rem]" onSubmit={handleSubmit(loginUser)}>
+            <form className="bg-gray-700 rounded-xl py-10 px-8 z-10 w-[50rem] max-w-[50rem]" onSubmit={handleSubmit(loginUser)}>
                 <h1 className="text-center text-gray-300 text-5xl font-semibold pb-3">Welcome back</h1>
 
                 <div className="email">

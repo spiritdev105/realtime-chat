@@ -42,10 +42,10 @@ export default function Register() {
     }
 
     return (
-        <section className="min-h-screen relative flex justify-center items-center">
+        <section className="min-h-screen relative flex justify-center items-center px-10">
             <img src="/images/nightBg.jpg" alt="" className="absolute top-0 left-0 min-h-screen w-full object-cover" />
-            <form className="bg-gray-700 rounded-xl py-10 px-8 z-10 w-[50rem]" onSubmit={handleSubmit(registerUser)}>
-                <h1 className="text-center text-gray-300 text-5xl font-semibold pb-3">Create an account</h1>
+            <form className="bg-gray-700 rounded-xl py-10 px-8 z-10 w-[50rem] max-w-[50rem]" onSubmit={handleSubmit(registerUser)}>
+                <h1 className="text-center text-gray-300 text-4xl sm:text-5xl font-semibold pb-1 sm:pb-3">Create an account</h1>
                 <p className="text-center text-gray-400 text-2xl mb-6">We are so glad to see you again</p>
 
                 <div className="email">

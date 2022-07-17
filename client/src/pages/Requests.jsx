@@ -7,6 +7,7 @@ import { requestReset, requestDeleteReset } from '../slices/requestSlice'
 import { useLocation } from "react-router-dom";
 import { setUrl } from "../slices/userSlice";
 import { addConversationReset } from "../slices/conversationSlice";
+import { UserIcon } from "@heroicons/react/solid";
 
 export default function Requests({ user }) {
     const { requests, requestMessage, requestError, requestSuccess } = useSelector(state => state.requests)
@@ -41,7 +42,12 @@ export default function Requests({ user }) {
 
     return (
         <>
-            <h1 className="text-gray-200 text-3xl font-semibold py-10">Requests - {yourRequests.length}</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-gray-200 text-3xl font-semibold py-10">Requests - {yourRequests.length}</h1>
+                <div className="icons flex gap-4">
+                    <UserIcon className="w-7 h-7 fill-gray-300 cursor-pointer" />
+                </div>
+            </div>
 
             <div className="requestedFriends">
                 {
