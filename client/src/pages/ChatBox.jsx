@@ -27,7 +27,7 @@ export default function ChatBox({ user }) {
         const friendId = friend.memberId
         socket.emit('sendPrivateMsg', newMsg, friendId)
         dispatch(newMsgReset())
-    }, [socket, newMsg, dispatch])
+    }, [socket, newMsg, dispatch, conversation, user])
 
     useEffect(() => {
         if (!socket || !removeConversation) return

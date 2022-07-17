@@ -3,7 +3,7 @@ import Quantity from './Quantity'
 import { PaperAirplaneIcon, LogoutIcon, UserGroupIcon, UsersIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../slices/authSlice';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { joinARoom, newRoom, roomReset } from '../slices/roomSlice';
 import { toast } from 'react-toastify'
 

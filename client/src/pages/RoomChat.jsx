@@ -25,13 +25,13 @@ export default function RoomChat({ user }) {
         if (!socket || !leavedRoom) return
         socket.emit('sendLeavedRoom', leavedRoom, `${user.username} leaved the ${leavedRoom.roomName} channel`)
         dispatch(leavedRoomReset())
-    }, [socket, leavedRoom, dispatch])
+    }, [socket, leavedRoom, dispatch, user, currentRoom])
 
     useEffect(() => {
         if (!socket || !newMsg) return
         socket.emit('sendNewMsg', newMsg, currentRoom)
         dispatch(newMsgReset())
-    }, [socket, newMsg, dispatch])
+    }, [socket, newMsg, dispatch, currentRoom])
 
     useEffect(() => {
         if (leaveRoomSuccess) {
