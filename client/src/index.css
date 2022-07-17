@@ -32,6 +32,10 @@ html {
     scrollbar-width: none;
 }
 
+.customShadow {
+    box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.5);
+}
+
 @media (min-width: 991px) {
     html {
         font-size: 55%;

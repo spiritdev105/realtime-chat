@@ -5,9 +5,9 @@ import { useEffect } from "react";
 import { toast } from 'react-toastify'
 import { requestReset, requestDeleteReset } from '../slices/requestSlice'
 import { useLocation } from "react-router-dom";
-import { setUrl } from "../slices/userSlice";
+import { setMenuSidebar, setProfileSidebar, setServerSidebar, setUrl } from "../slices/userSlice";
 import { addConversationReset } from "../slices/conversationSlice";
-import { UserIcon } from "@heroicons/react/solid";
+import { MenuAlt3Icon, MenuIcon, UserIcon } from "@heroicons/react/solid";
 
 export default function Requests({ user }) {
     const { requests, requestMessage, requestError, requestSuccess } = useSelector(state => state.requests)
@@ -17,6 +17,7 @@ export default function Requests({ user }) {
     const { acceptConversation } = useSelector(state => state.conversation)
     const { deleteRequest } = useSelector(state => state.requests)
     const { socket } = useSelector(state => state.socketConfig)
+    const { profileSidebar, serverSidebar, menuSidebar } = useSelector(state => state.users)
 
     useEffect(() => {
         if (!socket || !acceptConversation) return
@@ -45,7 +46,9 @@ export default function Requests({ user }) {
             <div className="flex items-center justify-between">
                 <h1 className="text-gray-200 text-3xl font-semibold py-10">Requests - {yourRequests.length}</h1>
                 <div className="icons flex gap-4">
-                    <UserIcon className="w-7 h-7 fill-gray-300 cursor-pointer" />
+                    <UserIcon className="w-7 h-7 fill-gray-300 cursor-pointer" onClick={() => dispatch(setProfileSidebar(!profileSidebar))} tabIndex={1} onBlur={() => dispatch(setProfileSidebar(false))} />
+                    <MenuAlt3Icon className="w-7 h-7 fill-gray-300 cursor-pointer" onClick={() => dispatch(setServerSidebar(!serverSidebar))} tabIndex={1} onBlur={() => dispatch(setServerSidebar(false))} />
+                    <MenuIcon className="w-7 h-7 fill-gray-300 cursor-pointer" onClick={() => dispatch(setMenuSidebar(!menuSidebar))} tabIndex={1} onBlur={() => dispatch(setMenuSidebar(false))} />
                 </div>
             </div>
 

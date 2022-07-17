@@ -7,12 +7,13 @@ export default function Profile({ user }) {
     const { messages } = useSelector(state => state.message)
     const userMessages = messages.filter(m => m.senderId === user._id)
     const latestMessage = userMessages[userMessages.length - 1]
+    const { profileSidebar } = useSelector(state => state.users)
 
     return (
-        <section className="h-screen max-h-screen overflow-scroll hideScrollBar bg-gray-800 w-[27.6rem] max-w-[28.6rem] p-8">
+        <section className={`h-screen max-h-screen overflow-scroll hideScrollBar bg-gray-800 w-[27.6rem] max-w-[28.6rem] p-8 md:static md:top-auto md:left-auto fixed top-0 left-0 z-10 customShadow md:shadow-none ${profileSidebar ? 'block' : 'hidden md:block'}`}>
             <Avatar image={user.imageUrl ? user.imageUrl : defaultImage} customStyle="w-32 h-32 mx-auto" />
             <h3 className="text-2xl text-gray-300 py-4 font-medium text-center">{user.username}</h3>
-            <div className="info flex justify-between bg-gray-700 rounded-xl py-4 px-6">
+            <div className="info flex lg:flex-row flex-col justify-between bg-gray-700 rounded-xl py-4 px-6">
                 <div>
                     <p className="text-gray-500 text-base text-center">Rank</p>
                     <h1 className="text-gray-300 text-2xl text-center font-medium">12.091</h1>
@@ -30,7 +31,7 @@ export default function Profile({ user }) {
             </div>
 
             <div className="mt-10">
-                <h3 className="text-xl text-gray-300 font-medium pb-4">Files & Links <span className="text-sm text-gray-600 ml-1">42 Files, 12 Links</span></h3>
+                <h3 className="text-xl text-gray-300 font-medium pb-4">Files & Links <span className="text-sm hidden lg:inline-block text-gray-600 ml-1">42 Files, 12 Links</span></h3>
                 <div className="files flex gap-4 mb-2">
                     <img src="/images/figma.png" alt="" className="w-10 h-10 object-cover" />
                     <div className="content">
@@ -61,10 +62,10 @@ export default function Profile({ user }) {
             <div className="latest mt-10">
                 <h3 className="text-xl text-gray-300 font-medium pb-3">Latest</h3>
 
-                <div className="flex gap-4">
+                <div className="flex items-center gap-4">
                     <Avatar image={user.imageUrl ? user.imageUrl : defaultImage} customStyle="w-10 h-10" />
                     <div className="content">
-                        <h3 className="text-xl text-gray-400 font-medium">{user.username} <span className="text-sm text-gray-600 ml-1">{new Date(latestMessage?.createdAt).toLocaleString()}</span> </h3>
+                        <h3 className="text-xl text-gray-400 font-medium">{user.username} <span className="text-sm text-gray-600 ml-1 hidden lg:inline-block">{new Date(latestMessage?.createdAt).toLocaleString()}</span> </h3>
                         <p className="text-base text-gray-300">
                             {latestMessage?.text}
                         </p>

@@ -60,29 +60,29 @@ export default function DefaultOptions({ user, activeUrl }) {
     return (
         <div className="py-8">
 
-            <Link to="/requests">
-                <div className={`flex items-center justify-between rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900 ${activeUrl === '/requests' ? 'bg-gray-900' : ''}`}>
-                    <div className="flex items-center gap-5">
-                        <PaperAirplaneIcon className="w-7 h-7 stroke-gray-300" />
-                        <p className="text-xl text-gray-300">Requests</p>
-                    </div>
-                    {
-                        totalRequests ? <Quantity total={totalRequests} /> : ''
-                    }
+            {/* <Link to="/requests"> */}
+            <div onPointerDown={() => navigate('/requests')} className={`flex items-center justify-between rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900 ${activeUrl === '/requests' ? 'bg-gray-900' : ''}`}>
+                <div className="flex items-center gap-5">
+                    <PaperAirplaneIcon className="w-7 h-7 stroke-gray-300" />
+                    <p className="text-xl text-gray-300">Requests</p>
                 </div>
-            </Link>
+                {
+                    totalRequests ? <Quantity total={totalRequests} /> : ''
+                }
+            </div>
+            {/* </Link> */}
 
-            <div className="flex items-center gap-5 rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900" onClick={joinRoom}>
+            <div className="flex items-center gap-5 rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900" onPointerDown={joinRoom}>
                 <UserGroupIcon className="w-7 h-7 stroke-gray-300" />
                 <p className="text-xl text-gray-300">Join Room</p>
             </div>
 
-            <div className="flex items-center gap-5 rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900" onClick={createRoom}>
+            <div className="flex items-center gap-5 rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900" onPointerDown={createRoom}>
                 <UsersIcon className="w-7 h-7 stroke-gray-300" />
                 <p className="text-xl text-gray-300">Create Room</p>
             </div>
 
-            <div className="flex items-center gap-5 rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900" onClick={logoutUser}>
+            <div className="flex items-center gap-5 rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900" onPointerDown={logoutUser}>
                 <LogoutIcon className="w-7 h-7 stroke-gray-300" />
                 <p className="text-xl text-gray-300">Logout</p>
             </div>

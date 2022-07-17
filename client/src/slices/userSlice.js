@@ -3,7 +3,10 @@ import userService from '../services/userService'
 
 const initialState = {
     allUsers: [],
-    activeUrl: ''
+    activeUrl: '',
+    profileSidebar: false,
+    menuSidebar: false,
+    serverSidebar: false
 }
 
 //all users
@@ -26,6 +29,15 @@ const usersSlice = createSlice({
     reducers: {
         setUrl: (state, action) => {
             state.activeUrl = action.payload
+        },
+        setProfileSidebar: (state, action) => {
+            state.profileSidebar = action.payload
+        },
+        setMenuSidebar: (state, action) => {
+            state.menuSidebar = action.payload
+        },
+        setServerSidebar: (state, action) => {
+            state.serverSidebar = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -39,5 +51,5 @@ const usersSlice = createSlice({
     }
 })
 
-export const { setUrl } = usersSlice.actions
+export const { setUrl, setServerSidebar, setMenuSidebar, setProfileSidebar } = usersSlice.actions
 export default usersSlice.reducer
