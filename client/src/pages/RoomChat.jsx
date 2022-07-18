@@ -53,7 +53,7 @@ export default function RoomChat({ user }) {
                     <>
                         <RoomHeader currentRoom={currentRoom} user={user} />
 
-                        <main className="h-full max-h-full hideScrollBar overflow-scroll pb-28 pt-[7.5rem]">
+                        <main className="h-full max-h-full hideScrollBar overflow-scroll pb-28 sm:pt-[7.5rem] pt-36">
                             {
                                 messageLoading ? <Loader />
                                     : chatMessages.length ?

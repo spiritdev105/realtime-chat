@@ -3,7 +3,7 @@ import SearchedFriend from '../components/SearchedFriend'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { setUrl } from '../slices/userSlice'
-
+import ResIcons from "../components/ResIcons";
 
 export default function AddFriend({ user }) {
     const { allUsers } = useSelector(state => state.users)
@@ -49,7 +49,12 @@ export default function AddFriend({ user }) {
     return (
         <>
             <section className="py-10 border-0 border-b border-gray-800 border-solid">
-                <h1 className="text-gray-200 text-3xl font-semibold pb-2">Add Friend</h1>
+                <div className="flex items-center justify-between">
+                    <h1 className="text-gray-200 text-3xl font-semibold pb-2">Add Friend</h1>
+                    <div className="icons flex gap-4">
+                        <ResIcons />
+                    </div>
+                </div>
                 <p className="text-gray-500 text-xl">You can add friend with their username. It's cAsE-sEnSeTiVe</p>
                 <form className="bg-gray-700 rounded-xl flex gap-4 items-center py-3 px-4 mt-6">
                     <input ref={friendUsername} type="text" placeholder="Enter a Username" className="w-full bg-gray-700 text-xl text-gray-300 rounded-md" />

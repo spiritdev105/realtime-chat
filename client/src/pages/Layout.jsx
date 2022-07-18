@@ -9,7 +9,7 @@ export default function Layout({ user }) {
         <section className="flex">
             <FirstSidebar />
             <SecondSidebar user={user} />
-            <section className="relative overflow-hidden h-screen max-h-screen bg-gray-900 w-[88rem] flex-grow px-20">
+            <section className="relative overflow-hidden h-screen max-h-screen bg-gray-900 w-[88rem] flex-grow sm:px-20 px-10">
                 <Outlet />
             </section>
             <Profile user={user} />

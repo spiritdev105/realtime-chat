@@ -2,10 +2,11 @@ import { PlusIcon } from '@heroicons/react/outline'
 import { useEffect, useState } from 'react'
 import Accordion from './Accordion'
 import Friend from './Friend'
-import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { allMessages } from '../slices/messageSlice'
 import { setActiveUsers } from '../slices/socketSlice'
+import { useNavigate } from 'react-router-dom'
+import { setMenuSidebar } from '../slices/userSlice'
 
 export default function Friends({ user, activeUrl }) {
     const [open, setOpen] = useState(true)
@@ -15,6 +16,12 @@ export default function Friends({ user, activeUrl }) {
     const yourFriends = conversations.map(c => c.members.find(m => m.memberId !== user._id))
     const dispatch = useDispatch()
     const greenStatus = allActiveUsers.map(u => u.userId)
+    const navigate = useNavigate()
+
+    function navigatePage(location) {
+        navigate(location)
+        dispatch(setMenuSidebar(false))
+    }
 
     useEffect(() => {
         if (user) {
@@ -44,18 +51,16 @@ export default function Friends({ user, activeUrl }) {
 
             <div className={`${open ? 'block' : 'hidden'}`}>
                 {
-                    yourFriends.map(f => (<Friend active={greenStatus.includes(f.memberId)} key={f.memberId} yourFriend={f} activeUrl={activeUrl} />))
+                    yourFriends.map(f => (<Friend navigatePage={navigatePage} active={greenStatus.includes(f.memberId)} key={f.memberId} yourFriend={f} activeUrl={activeUrl} />))
                 }
             </div>
 
-            <Link to="/">
-                <div className="flex items-center gap-4 cursor-pointer mt-8">
-                    <div className="w-9 h-9 rounded-xl bg-gray-700 flex justify-center items-center">
-                        <PlusIcon className="stroke-white w-4 h-4" />
-                    </div>
-                    <span className="text-gray-300 capitalize text-xl">add friends</span>
+            <div onPointerDown={() => navigatePage('/')} className="flex items-center gap-4 cursor-pointer mt-8">
+                <div className="w-9 h-9 rounded-xl bg-gray-700 flex justify-center items-center">
+                    <PlusIcon className="stroke-white w-4 h-4" />
                 </div>
-            </Link>
+                <span className="text-gray-300 capitalize text-xl">add friends</span>
+            </div>
         </div>
     )
 }

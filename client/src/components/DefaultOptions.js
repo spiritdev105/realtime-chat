@@ -6,6 +6,7 @@ import { logout } from '../slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { joinARoom, newRoom, roomReset } from '../slices/roomSlice';
 import { toast } from 'react-toastify'
+import { setMenuSidebar } from '../slices/userSlice';
 
 export default function DefaultOptions({ user, activeUrl }) {
     const dispatch = useDispatch()
@@ -39,6 +40,11 @@ export default function DefaultOptions({ user, activeUrl }) {
         navigate('/login')
     }
 
+    function navigateRequests() {
+        navigate('/requests')
+        dispatch(setMenuSidebar(false))
+    }
+
     function createRoom() {
         const roomName = window.prompt('Enter the room name: ')
         if (!roomName) return
@@ -60,8 +66,7 @@ export default function DefaultOptions({ user, activeUrl }) {
     return (
         <div className="py-8">
 
-            {/* <Link to="/requests"> */}
-            <div onPointerDown={() => navigate('/requests')} className={`flex items-center justify-between rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900 ${activeUrl === '/requests' ? 'bg-gray-900' : ''}`}>
+            <div onPointerDown={navigateRequests} className={`flex items-center justify-between rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900 ${activeUrl === '/requests' ? 'bg-gray-900' : ''}`}>
                 <div className="flex items-center gap-5">
                     <PaperAirplaneIcon className="w-7 h-7 stroke-gray-300" />
                     <p className="text-xl text-gray-300">Requests</p>
@@ -70,7 +75,6 @@ export default function DefaultOptions({ user, activeUrl }) {
                     totalRequests ? <Quantity total={totalRequests} /> : ''
                 }
             </div>
-            {/* </Link> */}
 
             <div className="flex items-center gap-5 rounded-xl cursor-pointer py-3 px-4 hover:bg-gray-900" onPointerDown={joinRoom}>
                 <UserGroupIcon className="w-7 h-7 stroke-gray-300" />

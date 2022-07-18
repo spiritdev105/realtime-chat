@@ -5,7 +5,7 @@ export default function FirstSidebar() {
     const { serverSidebar } = useSelector(state => state.users)
 
     return (
-        <section className={`w-28 h-screen max-h-screen overflow-scroll hideScrollBar bg-gray-700 py-6 lg:static lg:top-auto lg:left-auto fixed top-0 left-0 z-10 customShadow lg:shadow-none ${serverSidebar ? 'block' : 'hidden lg:block'}`}>
+        <section className={`w-28 h-screen max-h-screen overflow-scroll hideScrollBar bg-gray-700 py-6 lg:static lg:top-auto lg:left-auto fixed top-0 left-0 z-30 customShadow lg:shadow-none ${serverSidebar ? 'block' : 'hidden lg:block'}`}>
             <div className="flex gap-2.5 justify-center mb-8">
                 <span className="w-5 h-5 rounded-full bg-red-500"></span>
                 <span className="w-5 h-5 rounded-full bg-yellow-500"></span>

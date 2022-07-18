@@ -10,7 +10,7 @@ export default function Profile({ user }) {
     const { profileSidebar } = useSelector(state => state.users)
 
     return (
-        <section className={`h-screen max-h-screen overflow-scroll hideScrollBar bg-gray-800 w-[27.6rem] max-w-[28.6rem] p-8 md:static md:top-auto md:left-auto fixed top-0 left-0 z-10 customShadow md:shadow-none ${profileSidebar ? 'block' : 'hidden md:block'}`}>
+        <section className={`h-screen max-h-screen overflow-scroll hideScrollBar bg-gray-800 w-[28.6rem] max-w-[28.6rem] p-8 md:static md:top-auto md:left-auto fixed top-0 left-0 z-20 customShadow md:shadow-none ${profileSidebar ? 'block' : 'hidden md:block'}`}>
             <Avatar image={user.imageUrl ? user.imageUrl : defaultImage} customStyle="w-32 h-32 mx-auto" />
             <h3 className="text-2xl text-gray-300 py-4 font-medium text-center">{user.username}</h3>
             <div className="info flex lg:flex-row flex-col justify-between bg-gray-700 rounded-xl py-4 px-6">

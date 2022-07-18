@@ -37,7 +37,7 @@ export default function RequestFriend({ request, user }) {
     }
 
     return (
-        <div className="flex justify-between mb-4">
+        <div className="flex sm:flex-row flex-col justify-between mb-4">
             <div className="info flex gap-6 items-center">
                 <Avatar image={request.senderImage ? request.senderImage : defaultImage} customStyle="w-14 h-14" />
                 <div className="content">
@@ -46,7 +46,7 @@ export default function RequestFriend({ request, user }) {
                 </div>
             </div>
 
-            <div className="buttons space-x-4">
+            <div className="buttons space-x-4 mt-3 sm:mt-0">
                 <button onClick={acceptRequestAndCreateConversation} className={`text-gray-300 transition-all hover:bg-blue-600 bg-blue-500 px-12 py-3 text-center text-2xl font-medium rounded-md`}>Accept</button>
                 <button
                     onClick={() => removeRequest({ msgForReceiver: 'Declined the request', msgForSender: `${user.username} declined your request` })}

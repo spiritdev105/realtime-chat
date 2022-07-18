@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { deleteConversation } from '../slices/conversationSlice'
 import Avatar from './Avatar'
+import ResIcons from "./ResIcons";
 
 const defaultImage = 'https://firebasestorage.googleapis.com/v0/b/fullstack-ecommerce-f3adb.appspot.com/o/guest.webp?alt=media&token=da29d69d-0134-4b56-a295-55b348de4cbe'
 
@@ -19,18 +20,21 @@ export default function ChatHeader() {
     }
 
     return (
-        <header className="absolute top-0 left-0 w-full py-8 px-20 bg-gray-900 flex justify-between items-center">
+        <header className="absolute top-0 left-0 w-full py-8 sm:px-20 px-10 bg-gray-900 flex justify-between items-center">
             <div className="flex items-center gap-6">
                 <div className="flex gap-4 items-center">
                     <Avatar image={receiver?.imageUrl ? receiver.imageUrl : defaultImage} customStyle="w-12 h-12" />
                     <p className="capitalize text-gray-300 text-2xl">{username}</p>
                 </div>
 
-                <p className="text-gray-600 text-lg ">Where we can share our works and feedback</p>
+                <p className="text-gray-600 text-lg hidden sm:block">Where we can share our works and feedback</p>
             </div>
 
-            <div onClick={removeFriend} className="w-9 h-9 bg-gray-700 rounded-xl text-base flex items-center justify-center">
-                <LogoutIcon className="w-6 h-6 fill-gray-300 cursor-pointer" />
+            <div className="icons flex gap-4 items-center">
+                <ResIcons />
+                <div onClick={removeFriend} className="w-9 h-9 bg-gray-700 rounded-xl text-base flex items-center justify-center">
+                    <LogoutIcon className="w-6 h-6 fill-gray-300 cursor-pointer" />
+                </div>
             </div>
         </header>
     )
