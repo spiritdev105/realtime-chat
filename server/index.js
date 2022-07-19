@@ -24,10 +24,7 @@ async function connect() {
     }
 }
 
-const origin = process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : "https://realtime-chat-app-navy.vercel.app"
-
+const origin = process.env.CLIENT_ORIGIN
 
 app.use(cookieParser())
 app.use(express.json())
