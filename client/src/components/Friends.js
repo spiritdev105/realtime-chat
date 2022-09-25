@@ -26,12 +26,12 @@ export default function Friends({ user, activeUrl }) {
   }
 
   useEffect(() => {
-    if (user) {
+    if (user && conversations && rooms) {
       const cid = conversations.map((c) => c._id)
       const roomId = rooms.map((r) => r._id)
       dispatch(allMessages([...cid, ...roomId]))
     }
-  }, [dispatch, user])
+  }, [dispatch, user, conversations, rooms])
 
   useEffect(() => {
     if (!socket) return
