@@ -52,75 +52,67 @@ function App() {
   useEffect(() => {
     if (!socket) return
 
-    socket.on("receiveRequest", (userData) => {
+    function receiveRequest(userData) {
       dispatch(newRequest(userData))
       toast("You have a new friend request", { type: "info", autoClose: 2000 })
-    })
+    }
 
-    socket.on("saveConversation", (newConversation) => {
+    function saveConversation(newConversation) {
       dispatch(addConversation(newConversation))
-    })
+    }
 
-    socket.on("deleteRequest", ({ requestId, reqMsg }) => {
+    function deleteRequest({ requestId, reqMsg }) {
       toast(reqMsg, { type: "info", autoClose: 2000 })
       dispatch(requestDelete(requestId))
-    })
+    }
 
-    socket.on("rmConversation", ({ rmMsg, cid }) => {
+    function conversationRm({ rmMsg, cid }) {
       toast(rmMsg, { type: "error", autoClose: 2000 })
       dispatch(rmConversation(cid))
-    })
+    }
 
-    socket.on("joinRoom", (room, joinMsg) => {
+    function roomJoin(room, joinMsg) {
       toast(joinMsg, { type: "info", autoClose: 2000 })
       dispatch(joinRoom(room))
-    })
+    }
 
-    socket.on("leavedRoom", (room, lvMsg, userId) => {
+    function roomLeaved(room, lvMsg, userId) {
       toast(lvMsg, { type: "info", autoClose: 2000 })
       dispatch(leavedRoom({ room, userId }))
-    })
+    }
 
-    socket.on("brandNewMsg", (newMsg) => {
+    function brandNewMessage(newMsg) {
       dispatch(brandNewMsg(newMsg))
-    })
+    }
+
+    socket.on("receiveRequest", receiveRequest)
+
+    socket.on("saveConversation", saveConversation)
+
+    socket.on("deleteRequest", deleteRequest)
+
+    socket.on("rmConversation", conversationRm)
+
+    socket.on("joinRoom", roomJoin)
+
+    socket.on("leavedRoom", roomLeaved)
+
+    socket.on("brandNewMsg", brandNewMessage)
 
     return () => {
-      socket.off("receiveRequest", (userData) => {
-        dispatch(newRequest(userData))
-        toast("You have a new friend request", {
-          type: "info",
-          autoClose: 2000,
-        })
-      })
+      socket.off("receiveRequest", receiveRequest)
 
-      socket.off("saveConversation", (newConversation) => {
-        dispatch(addConversation(newConversation))
-      })
+      socket.off("saveConversation", saveConversation)
 
-      socket.off("deleteRequest", ({ requestId, reqMsg }) => {
-        toast(reqMsg, { type: "info", autoClose: 2000 })
-        dispatch(requestDelete(requestId))
-      })
+      socket.off("deleteRequest", deleteRequest)
 
-      socket.off("rmConversation", ({ rmMsg, cid }) => {
-        toast(rmMsg, { type: "error", autoClose: 2000 })
-        dispatch(rmConversation(cid))
-      })
+      socket.off("rmConversation", conversationRm)
 
-      socket.off("joinRoom", (room, joinMsg) => {
-        toast(joinMsg, { type: "info", autoClose: 2000 })
-        dispatch(joinRoom(room))
-      })
+      socket.off("joinRoom", roomJoin)
 
-      socket.off("leavedRoom", (room, lvMsg, userId) => {
-        toast(lvMsg, { type: "info", autoClose: 2000 })
-        dispatch(leavedRoom({ room, userId }))
-      })
+      socket.off("leavedRoom", roomLeaved)
 
-      socket.off("newRoomMsg", (newMsg) => {
-        dispatch(brandNewMsg(newMsg))
-      })
+      socket.off("brandNewMsg", brandNewMessage)
     }
   }, [socket, dispatch])
 
